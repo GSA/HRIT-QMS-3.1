@@ -56,7 +56,8 @@ namespace QmsCore.UIModel
 
         public Permission DeepCopy()
         {
-            return new Permission(this.PermissionId, string.Copy(this.PermissionCode), string.Copy(this.PermissionLabel));
+            return new Permission(this.PermissionId, this.PermissionCode, this.PermissionLabel);
+
         }
 
         public bool Equals(Permission other)

@@ -48,7 +48,7 @@ namespace QmsCore.UIModel
                         this.UserRoles.Add(new UserRole(userRole));
                 }                   
             }
-            catch(Exception x)
+            catch(Exception)
             {
 
             }
@@ -83,7 +83,7 @@ namespace QmsCore.UIModel
                 }                
                 
             }
-            catch (System.Exception x)
+            catch (System.Exception)
             {
             }
 
