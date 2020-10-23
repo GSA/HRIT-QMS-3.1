@@ -1,1 +1,0 @@
-update aca.ntf_notificationevent set deletedat = null where notificationevent_id = 1;
