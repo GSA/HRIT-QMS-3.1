@@ -52,11 +52,13 @@ namespace QMS.Controllers
 
         public async Task<IActionResult> LoginAsync()
         {
+            
 
             string logSnippet   = new StringBuilder("[")
                                 .Append(DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss"))
                                 .Append("][LoginController][LoginAsync] => ")
                                 .ToString();
+
 
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // BEGIN: TEMPORARY
