@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using AspNetCore.LegacyAuthCookieCompat;
 using QmsCore.UIModel;
 using QmsCore.Services;
@@ -24,7 +25,7 @@ namespace QMS.Controllers
     {
         private readonly IConfiguration _config;
         private readonly IStringLocalizer<LoginController> _localizer;
-        private readonly IHostingEnvironment _hostingEnv;
+        private readonly IWebHostEnvironment _hostingEnv;
         private readonly IUserService _userService;
         private readonly IMenuBuilderService _menuBuilderService;
 
@@ -32,7 +33,7 @@ namespace QMS.Controllers
         (
             IConfiguration configuration,
             IStringLocalizer<LoginController> localizer,
-            IHostingEnvironment hostEnv,
+            IWebHostEnvironment hostEnv,
             IUserService usrSvc,
             IMenuBuilderService mbSvc
         )

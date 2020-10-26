@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.Hosting;
 using QmsCore.Services;
 using QMS.Helpers;
 using QMS.Validators;
@@ -232,8 +233,8 @@ namespace QMS
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 // Add support for localizing strings in data annotations (e.g. validation messages) via the
                 // IStringLocalizer abstractions.
-                .AddDataAnnotationsLocalization()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .AddDataAnnotationsLocalization();
+                //.SetCompatibilityVersion(CompatibilityVersion.Version);
 
             // Configure supported cultures and localization options
             services.Configure<RequestLocalizationOptions>(options =>
@@ -259,7 +260,7 @@ namespace QMS
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -295,13 +296,21 @@ namespace QMS
             ///////////////////////////////////////////////////////////////////////////////////////
             app.UseSession();
 
-            app.UseMvc(routes =>
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id?}");
+            //});
+
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
-            
+
+
             string logFileDirectory = Environment.GetEnvironmentVariable("LOGFILE_DIRECTORY");
             System.Console.WriteLine($"[Startup][Configure] => (logFileDirectory): '{logFileDirectory}'");
             if ( String.IsNullOrEmpty(logFileDirectory) == false)
