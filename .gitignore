@@ -101,5 +101,8 @@ _[Ss]cripts
 # CSV Files
 ###################
 *.csv
+###################
+# Test App Directory
+###################
+/TestApp
 
-kcChiefs.png
