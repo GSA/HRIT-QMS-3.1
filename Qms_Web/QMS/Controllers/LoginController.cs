@@ -155,6 +155,7 @@ namespace QMS.Controllers
             }
         }
 
+        [Route("Login/LogoutAsync")]
         public async Task<IActionResult> LogoutAsync()
         {
             string logSnippet   = new StringBuilder("[")
