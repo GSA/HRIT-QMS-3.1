@@ -50,6 +50,7 @@ namespace QMS.Controllers
             return View();
         }
 
+        [Route("Login/LoginAsync")]
         public async Task<IActionResult> LoginAsync()
         {
             

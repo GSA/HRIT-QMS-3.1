@@ -111,7 +111,6 @@ namespace QMS
             services.AddScoped<IDataErrorService, DataErrorService>();
             //////////////////////////////////////////////////////////////////////////////////////////
 
-
             ////////////////////////////////////////////////////////////////////////////////////////// 
             // Register UserAdminHelper
             //////////////////////////////////////////////////////////////////////////////////////////          
@@ -140,7 +139,6 @@ namespace QMS
             //////////////////////////////////////////////////////////////////////////////////////////          
             services.AddScoped<IUserFormUtil, UserFormUtil>();
             //////////////////////////////////////////////////////////////////////////////////////////
-
 
             //////////////////////////////////////////////////////////////////////////////////////////
             // Allow custom components to get to the HTTP context (i.e.LoginController).
@@ -228,14 +226,22 @@ namespace QMS
             // Add the Kendo UI services to the services container.
             //services.AddKendo();
 
-            services.AddMvc()
-                // Add support for finding localized views, based on file name suffix, e.g. Index.fr.cshtml
-                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-                // Add support for localizing strings in data annotations (e.g. validation messages) via the
-                // IStringLocalizer abstractions.
-                .AddDataAnnotationsLocalization();
-                //.SetCompatibilityVersion(CompatibilityVersion.Version);
+            /////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Original (used in 2.1)
+            /////////////////////////////////////////////////////////////////////////////////////////////////////
+            //services.AddMvc()
+            //    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+            //    .AddDataAnnotationsLocalization()
+            //    .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+            //////////////////////////////////////////////////////////////
+            // New (new for 3.1)
+            //////////////////////////////////////////////////////////////
+            services.AddControllersWithViews()
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();
+   
             // Configure supported cultures and localization options
             services.Configure<RequestLocalizationOptions>(options =>
             {
@@ -262,6 +268,21 @@ namespace QMS
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Log file setup
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            string logFileDirectory = Environment.GetEnvironmentVariable("LOGFILE_DIRECTORY");
+            System.Console.WriteLine($"[Startup][Configure] => (logFileDirectory): '{logFileDirectory}'");
+            if (String.IsNullOrEmpty(logFileDirectory) == false)
+            {
+                System.Console.WriteLine("[Startup][Configure] => (Add log file): " + logFileDirectory + "/QMS-{Date}.log");
+                loggerFactory.AddFile(logFileDirectory + "/QMS-{Date}.log");
+            }
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            ////////////////////////////////////////////
+            // Exception handling 
+            ////////////////////////////////////////////
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -269,56 +290,38 @@ namespace QMS
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            ////////////////////////////////////////////
 
-            // Not working
-            //app.UseStatusCodePagesWithRedirects("/StatusCode?code={0}");
-
-            app.UseStatusCodePages("text/plain", "Status code page, status code: {0}");     
-                
+ 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
-            ///////////////////////////////////////////////////////////////////////////////////////
-            // Use CookiePolicy configured in the Startup.ConfigureServices (above)
-            ///////////////////////////////////////////////////////////////////////////////////////
+            app.UseRouting();
             app.UseCookiePolicy();
-
-            ///////////////////////////////////////////////////////////////////////////////////////
-            // Use Cookie Authentication scheme configured in the Startup.ConfigureServices (above)
-            ///////////////////////////////////////////////////////////////////////////////////////
             app.UseAuthentication();
-
-            ///////////////////////////////////////////////////////////////////////////////////////
-            // Use Session management configured in the Startup.ConfigureServices (above)
-            ///////////////////////////////////////////////////////////////////////////////////////
             app.UseSession();
 
+            //////////////////////////////////////////////////////////////
+            // Original (used in 2.1)
+            //////////////////////////////////////////////////////////////
             //app.UseMvc(routes =>
             //{
             //    routes.MapRoute(
             //        name: "default",
             //        template: "{controller=Home}/{action=Index}/{id?}");
             //});
+            //////////////////////////////////////////////////////////////
 
-            app.UseRouting();
-            app.UseAuthentication();
+            //////////////////////////////////////////////////////////////
+            // New (new for 3.1)
+            //////////////////////////////////////////////////////////////
             app.UseEndpoints(endpoints =>
             {
+                // Default route.
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
-
-
-            string logFileDirectory = Environment.GetEnvironmentVariable("LOGFILE_DIRECTORY");
-            System.Console.WriteLine($"[Startup][Configure] => (logFileDirectory): '{logFileDirectory}'");
-            if ( String.IsNullOrEmpty(logFileDirectory) == false)
-            {
-                System.Console.WriteLine("[Startup][Configure] => (Add log file): " + logFileDirectory + "/QMS-{Date}.log");
-                loggerFactory.AddFile(logFileDirectory + "/QMS-{Date}.log");
-            }  
-
+            //////////////////////////////////////////////////////////////
         }
     }
 }
