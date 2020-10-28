@@ -105,4 +105,8 @@ _[Ss]cripts
 # Test App Directory
 ###################
 /TestApp
+#####################
+# launchSettings.json
+#####################
+launchSettings.json
 
