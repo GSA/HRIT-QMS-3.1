@@ -410,9 +410,10 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
         /// <returns></returns>
         private IQueryable<CorrectiveAction> RetrieveAllByCreatedBy(int createdByUserId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in correctiveActionRepository.RetrieveAll()
                          orderby recs.Id
-                         where recs.CreatedByUserId == createdByUserId && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > DateTime.Now.AddDays(archiveDayCount))
+                         where recs.CreatedByUserId == createdByUserId && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > dateToUse)
                          select new CorrectiveAction{
                              Id = recs.Id,
                              ActionRequestTypeId = recs.ActionRequestTypeId,
@@ -450,9 +451,10 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
         /// <returns></returns>
         private IQueryable<CorrectiveAction> RetrieveAllByCreatedByArchive(int createdByUserId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in correctiveActionRepository.RetrieveAll()
                          orderby recs.Id
-                         where recs.CreatedByUserId == createdByUserId && recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= DateTime.Now.AddDays(archiveDayCount))
+                         where recs.CreatedByUserId == createdByUserId && recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= dateToUse)
                          select new CorrectiveAction{
                              Id = recs.Id,
                              ActionRequestTypeId = recs.ActionRequestTypeId,
@@ -490,9 +492,10 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
         /// <returns></returns>
         private IQueryable<CorrectiveAction> RetrieveAllByCreatedAtOrg(int createdAtOrgId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in correctiveActionRepository.RetrieveAll()
                          orderby recs.Id
-                         where recs.CreatedAtOrgId == createdAtOrgId && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > DateTime.Now.AddDays(archiveDayCount))
+                         where recs.CreatedAtOrgId == createdAtOrgId && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > dateToUse)
 //                         where recs.CreatedAtOrgId == createdAtOrgId
                          select new CorrectiveAction{
                              Id = recs.Id,
@@ -531,9 +534,10 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
         /// <returns></returns>
         private IQueryable<CorrectiveAction> RetrieveAllByCreatedAtOrgArchive(int createdAtOrgId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in correctiveActionRepository.RetrieveAll()
                          orderby recs.Id
-                         where recs.CreatedAtOrgId == createdAtOrgId && recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= DateTime.Now.AddDays(archiveDayCount))
+                         where recs.CreatedAtOrgId == createdAtOrgId && recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= dateToUse)
 //                         where recs.CreatedAtOrgId == createdAtOrgId
                          select new CorrectiveAction{
                              Id = recs.Id,
@@ -571,10 +575,10 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
         /// <returns></returns>
         private IQueryable<CorrectiveAction> RetrieveAllByAssignedToOrCreatedByOrg(int orgId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in correctiveActionRepository.RetrieveAll()
                          orderby recs.Id
-                         where (recs.AssignedToOrgId == orgId || recs.CreatedAtOrgId == orgId) && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > DateTime.Now.AddDays(archiveDayCount))
-//                         where recs.AssignedToOrgId == AssignedToOrgId && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > DateTime.Now.AddDays(archiveDayCount))                         
+                         where (recs.AssignedToOrgId == orgId || recs.CreatedAtOrgId == orgId) && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > dateToUse)
                          select new CorrectiveAction{
                              Id = recs.Id,
                              ActionRequestTypeId = recs.ActionRequestTypeId,
@@ -610,10 +614,10 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
         /// <returns></returns>
         private IQueryable<CorrectiveAction> RetrieveAllByAssignedToOrCreatedByUserId(int userId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in correctiveActionRepository.RetrieveAll()
                          orderby recs.Id
-//                         where recs.AssignedToOrgId == AssignedToOrgId && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > DateTime.Now.AddDays(archiveDayCount))            
-                         where (recs.AssignedToUserId == userId || recs.CreatedByUserId == userId) && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > DateTime.Now.AddDays(archiveDayCount)) 
+                         where (recs.AssignedToUserId == userId || recs.CreatedByUserId == userId) && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > dateToUse) 
                          select new CorrectiveAction{
                              Id = recs.Id,
                              ActionRequestTypeId = recs.ActionRequestTypeId,
@@ -652,10 +656,10 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
 //        private IQueryable<CorrectiveAction> RetrieveAllByAssignedToOrCreatedByUserIdArchive(int userId)
         private IQueryable<CorrectiveAction> RetrieveAllByAssignedToOrCreatedByUserIdArchive(int userId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in correctiveActionRepository.RetrieveAll()
                          orderby recs.Id
-//                         where recs.AssignedToOrgId == AssignedToOrgId && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > DateTime.Now.AddDays(archiveDayCount))            
-                         where (recs.AssignedToUserId == userId || recs.CreatedByUserId == userId) && recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= DateTime.Now.AddDays(archiveDayCount)) 
+                         where (recs.AssignedToUserId == userId || recs.CreatedByUserId == userId) && recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= dateToUse) 
                          select new CorrectiveAction{
                              Id = recs.Id,
                              ActionRequestTypeId = recs.ActionRequestTypeId,
@@ -692,9 +696,10 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
         /// <returns></returns>
         private IQueryable<CorrectiveAction> RetrieveAllByAssignedToUser(int assignedToUserId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in correctiveActionRepository.RetrieveAll()
                          orderby recs.Id
-                         where recs.AssignedToUserId == assignedToUserId && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > DateTime.Now.AddDays(archiveDayCount))
+                         where recs.AssignedToUserId == assignedToUserId && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > dateToUse)
                          select new CorrectiveAction{
                              Id = recs.Id,
                              ActionRequestTypeId = recs.ActionRequestTypeId,
@@ -731,9 +736,10 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
         /// <returns></returns>
         private IQueryable<CorrectiveAction> RetrieveAllByAssignedToOrg(int AssignedToOrgId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in correctiveActionRepository.RetrieveAll()
                          orderby recs.Id
-                         where recs.AssignedToOrgId == AssignedToOrgId && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > DateTime.Now.AddDays(archiveDayCount))
+                         where recs.AssignedToOrgId == AssignedToOrgId && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > dateToUse)
                          select new CorrectiveAction{
                              Id = recs.Id,
                              ActionRequestTypeId = recs.ActionRequestTypeId,
@@ -769,10 +775,10 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
         /// <returns></returns>
         public IQueryable<CorrectiveAction> RetrieveAllArchive()
         {
-
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in correctiveActionRepository.RetrieveAll()
                          orderby recs.Id
-                         where recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= DateTime.Now.AddDays(archiveDayCount))
+                         where recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= dateToUse)
                          select new CorrectiveAction{
                              Id = recs.Id,
                              ActionRequestTypeId = recs.ActionRequestTypeId,
@@ -809,9 +815,10 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
         /// <returns></returns>
         private IQueryable<CorrectiveAction> RetrieveAllByAssignedToOrCreatedByOrgArchive(int orgId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in correctiveActionRepository.RetrieveAll()
                          orderby recs.Id
-                         where (recs.AssignedToOrgId == orgId || recs.CreatedAtOrgId == orgId) && recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= DateTime.Now.AddDays(archiveDayCount))
+                         where (recs.AssignedToOrgId == orgId || recs.CreatedAtOrgId == orgId) && recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= dateToUse)
                          select new CorrectiveAction{
                              Id = recs.Id,
                              ActionRequestTypeId = recs.ActionRequestTypeId,
@@ -843,9 +850,10 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
 
         public IQueryable<CorrectiveAction> RetrieveAll()
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in correctiveActionRepository.RetrieveAll()
                          orderby recs.Id
-                         where recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > DateTime.Now.AddDays(archiveDayCount))
+                         where recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > dateToUse)
                          select new CorrectiveAction{
                              Id = recs.Id,
                              ActionRequestTypeId = recs.ActionRequestTypeId,
@@ -883,6 +891,7 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
         public IQueryable<CorrectiveAction> RetrieveAllByEmployeePOID(User user)
         {
             string personnelOfficerIdentifier = "9999";
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             try
             {
                 personnelOfficerIdentifier = referenceRepository.RetrievePoidByOrgCode(user.OrgId.Value).PoiId.ToString();
@@ -893,8 +902,7 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
             int userOrgId = user.OrgId.Value;
             var retval = from recs in correctiveActionRepository.RetrieveAll()
                          orderby recs.Id
-                         where (recs.Empl.PersonnelOfficeIdentifier == personnelOfficerIdentifier && recs.CreatedAtOrgId != userOrgId) && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > DateTime.Now.AddDays(archiveDayCount))
-//                         where recs.AssignedToUserId == assignedToUserId && recs.DeletedAt == null
+                         where (recs.Empl.PersonnelOfficeIdentifier == personnelOfficerIdentifier && recs.CreatedAtOrgId != userOrgId) && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > dateToUse)
                          select new CorrectiveAction{
                              Id = recs.Id,
                              ActionRequestTypeId = recs.ActionRequestTypeId,
@@ -931,6 +939,7 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
         /// <returns></returns>
         public IQueryable<CorrectiveAction> RetrieveAllByEmployeePOIDArchive(User user)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             string personnelOfficerIdentifier = "9999";
             try
             {
@@ -942,8 +951,7 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
             int userOrgId = user.OrgId.Value;
             var retval = from recs in correctiveActionRepository.RetrieveAll()
                          orderby recs.Id
-                         where (recs.Empl.PersonnelOfficeIdentifier == personnelOfficerIdentifier && recs.CreatedAtOrgId != userOrgId) && recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= DateTime.Now.AddDays(archiveDayCount))
-//                         where recs.AssignedToUserId == assignedToUserId && recs.DeletedAt == null
+                         where (recs.Empl.PersonnelOfficeIdentifier == personnelOfficerIdentifier && recs.CreatedAtOrgId != userOrgId) && recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= dateToUse)
                          select new CorrectiveAction{
                              Id = recs.Id,
                              ActionRequestTypeId = recs.ActionRequestTypeId,
@@ -1006,9 +1014,10 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
 
         private IQueryable<CorrectiveAction> RetrieveAgingReportByUser(int daysBack, int orgToFind)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in correctiveActionRepository.RetrieveAll()
                          orderby recs.Id
-                         where recs.DeletedAt == null && recs.AssignedToOrgId == orgToFind && recs.AssignedAt.Value <= DateTime.Now.AddDays(archiveDayCount) && recs.ResolvedAt == null
+                         where recs.DeletedAt == null && recs.AssignedToOrgId == orgToFind && recs.AssignedAt.Value <= dateToUse && recs.ResolvedAt == null
                          select new CorrectiveAction{
                              Id = recs.Id,
                              ActionRequestTypeId = recs.ActionRequestTypeId,
@@ -1044,9 +1053,10 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
 
         public IQueryable<CorrectiveAction> RetrieveAgingReportByOrganization(int daysBack, int orgToFind)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in correctiveActionRepository.RetrieveAll()
                          orderby recs.Id
-                         where recs.DeletedAt == null && recs.AssignedToOrgId == orgToFind && recs.AssignedAt.Value <= DateTime.Now.AddDays(archiveDayCount) && recs.ResolvedAt == null
+                         where recs.DeletedAt == null && recs.AssignedToOrgId == orgToFind && recs.AssignedAt.Value <= dateToUse && recs.ResolvedAt == null
                          select new CorrectiveAction{
                              Id = recs.Id,
                              ActionRequestTypeId = recs.ActionRequestTypeId,
@@ -1083,8 +1093,9 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
    public IQueryable<CorrectiveAction> RetrieveAllByStatusAndAge(int statusId, int daysold)
         {
             int negDay = daysold - (daysold * 2);
+            DateTime dateToUse = DateTime.Now.AddDays(negDay);
             var retval = from recs in correctiveActionRepository.RetrieveAll()
-                         where recs.StatusId == statusId && recs.DeletedAt == null && recs.ResolvedAt == null && recs.UpdatedAt.Value < DateTime.Now.AddDays(negDay)
+                         where recs.StatusId == statusId && recs.DeletedAt == null && recs.ResolvedAt == null && recs.UpdatedAt.Value < dateToUse
                          orderby recs.AssignedToOrgId
                          select new CorrectiveAction{
                              Id = recs.Id,
@@ -1119,8 +1130,9 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
         public IQueryable<CorrectiveAction> RetrieveAllByStatusAndAge(int statusId, int daysold, int orgId)
         {
             int negDay = daysold - (daysold * 2);
+            DateTime dateToUse = DateTime.Now.AddDays(negDay);
             var retval = from recs in correctiveActionRepository.RetrieveAll()
-                         where recs.AssignedToOrgId == orgId && recs.StatusId == statusId && recs.DeletedAt == null && recs.ResolvedAt == null && recs.UpdatedAt.Value < DateTime.Now.AddDays(negDay)
+                         where recs.AssignedToOrgId == orgId && recs.StatusId == statusId && recs.DeletedAt == null && recs.ResolvedAt == null && recs.UpdatedAt.Value < dateToUse
                          orderby recs.AssignedToOrgId
                          select new CorrectiveAction{
                              Id = recs.Id,

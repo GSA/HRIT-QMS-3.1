@@ -12,8 +12,10 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
+        "LOCALHOST_NAME": "alfredortega",
         "APPSETTINGS_DIRECTORY": "E:\\Developers\\AlO",
         "ASPNETCORE_ENVIRONMENT": "Development",
+        "LOCALHOST_EMAIL": "alfred.ortega@gsa.gov",
         "LOGFILE_DIRECTORY": "E:\\Developers\\AlO\\Logs"
       }
     },
