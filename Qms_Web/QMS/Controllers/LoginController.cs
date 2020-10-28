@@ -86,6 +86,8 @@ namespace QMS.Controllers
             string requestedUriTest = HttpContext.Session.GetObject<string>(MiscConstants.REQUESTED_URI);
             Console.WriteLine(logSnippet + $"(requestedUriTest) '{requestedUriTest}'");
 
+            Console.WriteLine(logSnippet + $"(_hostingEnv.EnvironmentName): '{_hostingEnv.EnvironmentName}'");
+
             if (HttpContext.User.Identity.IsAuthenticated)
             {
                 Console.WriteLine(logSnippet + $"'{HttpContext.User.Identity.Name}' has been authenticated, redirecting to [HomeController][Index]");
@@ -93,14 +95,15 @@ namespace QMS.Controllers
             }
             else if (_hostingEnv.IsDevelopment())
             {
-                Console.WriteLine(logSnippet + $"(_hostingEnv.EnvironmentName): '{_hostingEnv.EnvironmentName}'");
-                Console.WriteLine(logSnippet + "Bypassing SecureAuth and authenticating as Lee Trent");
+                string localhostEmail = Environment.GetEnvironmentVariable("LOCALHOST_EMAIL");
+                string localhostName  = Environment.GetEnvironmentVariable("LOCALHOST_NAME");
+                Console.WriteLine(logSnippet + $"Bypassing SecureAuth and authenticating as [{localhostName}][{localhostEmail}]");
 
                 ////////////////////////////////////////////////////////////////////////////
                 // SecUser 
                 ////////////////////////////////////////////////////////////////////////////
-                User qmsUser = _userService.RetrieveByEmailAddress("lee.trent@gsa.gov");
-                var claimsPrincipal = this.CreateClaimsPrincipal(qmsUser, "leettrent", "lee.trent@gsa.gov");
+                User qmsUser = _userService.RetrieveByEmailAddress(localhostEmail);
+                var claimsPrincipal = this.CreateClaimsPrincipal(qmsUser, localhostName, localhostEmail);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
                 HttpContext.Session.SetObject(MiscConstants.USER_SESSION_KEY, qmsUser);
                 HttpContext.Session.SetObject(MiscConstants.USER_SESSION_VM_KEY, UserUtil.MapToViewModel(qmsUser));
