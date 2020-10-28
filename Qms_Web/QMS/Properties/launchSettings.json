@@ -12,9 +12,11 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "APPSETTINGS_DIRECTORY": "E:\\Developers\\AlO",
+        "LOCALHOST_NAME": "leettrent",
+        "APPSETTINGS_DIRECTORY": "E:\\HRIT\\QMS\\AppSettings",
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "LOGFILE_DIRECTORY": "E:\\Developers\\AlO\\Logs"
+        "LOCALHOST_EMAIL": "lee.trent@gsa.gov",
+        "LOGFILE_DIRECTORY": "E:\\HRIT\\QMS\\Logs"
       }
     },
     "QMS": {
