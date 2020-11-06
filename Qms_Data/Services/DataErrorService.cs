@@ -157,19 +157,11 @@ namespace QmsCore.Services
         private List<DataErrorListItem> convertToListItems(IQueryable<DataError> errors)
         {
             List<DataErrorListItem> retval = new List<DataErrorListItem>();
-            try
+            foreach(var error in errors)
             {
-                foreach(var error in errors)
-                {
-                    DataErrorListItem item = error.DataErrorListItem();
-                    retval.Add(item);
-                }                
-            }
-            catch (System.Exception)
-            {
-                
-            }
-
+                DataErrorListItem item = error.DataErrorListItem();
+                retval.Add(item);
+            }                
             return retval;
         }
 
@@ -275,8 +267,9 @@ namespace QmsCore.Services
 
         private IQueryable<DataError> RetrieveAllByCreatedAtOrg(int createdAtOrgId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in repository.RetrieveAll()
-                         where recs.CreatedByOrgId == createdAtOrgId && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > DateTime.Now.AddDays(archiveDayCount))
+                         where recs.CreatedByOrgId == createdAtOrgId && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > dateToUse)
                          select new DataError{
                              Id = recs.Id,
                              EmplId = recs.Emplid,
@@ -308,8 +301,9 @@ namespace QmsCore.Services
 
         private IQueryable<DataError> RetrieveAllByCreatedAtOrgArchive(int createdAtOrgId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in repository.RetrieveAll()
-                         where recs.CreatedByOrgId == createdAtOrgId && recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= DateTime.Now.AddDays(archiveDayCount))
+                         where recs.CreatedByOrgId == createdAtOrgId && recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= dateToUse)
                          select new DataError{
                              Id = recs.Id,
                              EmplId = recs.Emplid,
@@ -341,8 +335,9 @@ namespace QmsCore.Services
 
         private IQueryable<DataError> RetrieveAllByAssignedToOrg(int AssignedToOrgId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in repository.RetrieveAll()
-                         where recs.AssignedToOrgId == AssignedToOrgId && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > DateTime.Now.AddDays(archiveDayCount))
+                         where recs.AssignedToOrgId == AssignedToOrgId && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > dateToUse)
                          select new DataError{
                              Id = recs.Id,
                              EmplId = recs.Emplid,
@@ -373,8 +368,9 @@ namespace QmsCore.Services
 
         private IQueryable<DataError> RetrieveAllByAssignedToOrgArchive(int AssignedToOrgId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in repository.RetrieveAll()
-                         where recs.AssignedToOrgId == AssignedToOrgId && recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= DateTime.Now.AddDays(archiveDayCount))
+                         where recs.AssignedToOrgId == AssignedToOrgId && recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= dateToUse)
                          select new DataError{
                              Id = recs.Id,
                              EmplId = recs.Emplid,
@@ -405,8 +401,9 @@ namespace QmsCore.Services
 
         private IQueryable<DataError> RetrieveAllByAssignedToOrCreatedByOrg(int orgId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in repository.RetrieveAll()
-                         where (recs.AssignedToOrgId == orgId || recs.CreatedByOrgId == orgId) && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > DateTime.Now.AddDays(archiveDayCount))
+                         where (recs.AssignedToOrgId == orgId || recs.CreatedByOrgId == orgId) && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > dateToUse)
                          select new DataError{
                              Id = recs.Id,
                              EmplId = recs.Emplid,
@@ -437,8 +434,9 @@ namespace QmsCore.Services
 
         private IQueryable<DataError> RetrieveAllByAssignedToOrCreatedByOrgArchive(int orgId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in repository.RetrieveAll()
-                         where (recs.AssignedToOrgId == orgId || recs.CreatedByOrgId == orgId) && recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= DateTime.Now.AddDays(archiveDayCount))
+                         where (recs.AssignedToOrgId == orgId || recs.CreatedByOrgId == orgId) && recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= dateToUse)
                          select new DataError{
                              Id = recs.Id,
                              EmplId = recs.Emplid,
@@ -469,8 +467,9 @@ namespace QmsCore.Services
 
         private IQueryable<DataError> RetrieveAllByAssignedToOrCreatedByUserId(int userId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in repository.RetrieveAll()
-                         where (recs.AssignedToUserId == userId || recs.CreatedByUserId == userId) && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > DateTime.Now.AddDays(archiveDayCount)) 
+                         where (recs.AssignedToUserId == userId || recs.CreatedByUserId == userId) && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > dateToUse) 
                          select new DataError{
                              Id = recs.Id,
                              EmplId = recs.Emplid,
@@ -501,8 +500,9 @@ namespace QmsCore.Services
 
         private IQueryable<DataError> RetrieveAllByAssignedToUser(int assignedToUserId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in repository.RetrieveAll()
-                         where recs.AssignedToUserId == assignedToUserId && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > DateTime.Now.AddDays(archiveDayCount))
+                         where recs.AssignedToUserId == assignedToUserId && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > dateToUse)
                          select new DataError{
                              Id = recs.Id,
                              EmplId = recs.Emplid,
@@ -533,8 +533,9 @@ namespace QmsCore.Services
 
         private IQueryable<DataError> RetrieveAllByAssignedToUserArchive(int assignedToUserId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in repository.RetrieveAll()
-                         where recs.AssignedToUserId == assignedToUserId && recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= DateTime.Now.AddDays(archiveDayCount))
+                         where recs.AssignedToUserId == assignedToUserId && recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= dateToUse)
                          select new DataError{
                              Id = recs.Id,
                              EmplId = recs.Emplid,
@@ -566,9 +567,10 @@ namespace QmsCore.Services
 
         public List<DataErrorListItem> RetrieveAll()
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in repository.RetrieveAll()
 //                         where recs.AssignedToUserId == assignedToUserId && recs.DeletedAt == null && (recs.ResolvedAt != null || recs.ResolvedAt.Value <= DateTime.Now.AddDays(archiveDayCount))            
-                         where recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > DateTime.Now.AddDays(archiveDayCount))
+                         where recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > dateToUse)
                          select new DataError{
                              Id = recs.Id,
                              EmplId = recs.Emplid,
@@ -600,9 +602,10 @@ namespace QmsCore.Services
 
         public List<DataErrorListItem> RetrieveAllArchive()
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in repository.RetrieveAll()
 //                         where recs.AssignedToUserId == assignedToUserId && recs.DeletedAt == null && (recs.ResolvedAt != null || recs.ResolvedAt.Value <= DateTime.Now.AddDays(archiveDayCount))            
-                         where recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= DateTime.Now.AddDays(archiveDayCount))
+                         where recs.DeletedAt == null && (recs.ResolvedAt != null && recs.ResolvedAt.Value <= dateToUse)
                          select new DataError{
                              Id = recs.Id,
                              EmplId = recs.Emplid,
@@ -634,8 +637,9 @@ namespace QmsCore.Services
 
         public List<DataErrorListItem> RetrieveAllByEmployee(string employeeId)
         {
+            DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in repository.RetrieveAll()
-                         where recs.Emplid == employeeId && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > DateTime.Now.AddDays(archiveDayCount))
+                         where recs.Emplid == employeeId && recs.DeletedAt == null && (recs.ResolvedAt == null || recs.ResolvedAt.Value > dateToUse)
                          select new DataError{
                              Id = recs.Id,
                              EmplId = recs.Emplid,
