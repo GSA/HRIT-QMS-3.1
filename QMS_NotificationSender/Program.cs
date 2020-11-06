@@ -58,50 +58,61 @@ namespace QMS_NotificationSender
                 context = new QMSContext();
                 logit("Context Built");
 
-                logit("Retrieving Settings");
-                settingsList = retrieveSettings(env);
-                logit("Settings defined");    
-                setSettings();                    
-
-                sendQmsDataEmails();
-
-
-                logit("Instantiating Reference Service");
-                referenceService = new ReferenceService(context);
-                logit("Instantiating Corrective Action Service");
-                correctiveActionService = new CorrectiveActionService(context);
-                logit("Instantiating User Service");
-                userService = new UserService(context);
-                logit("Instantiating Notification Service");
-                notificationService = new NotificationService(context);                
-                logit("Loading Active Users");
-                Users = userService.RetrieveActiveUsers();
-
-                logit("Should Event Based Emails be sent: " + shouldSendEventBasedEmails.ToString());
-                if(shouldSendEventBasedEmails)
+                User user = new UserService().RetrieveByEmailAddress("alfred.ortega@gsa.gov");
+                Console.WriteLine(string.Format("User: {0} loaded",user.DisplayName));
+                var items = new CorrectiveActionService(context).RetrieveAllForOrganization(user);
+                foreach (var item in items)
                 {
-                    logit("executeEventBasedEmails");
-                    executeEventBasedEmails();
+                    Console.WriteLine(item.DaysOld);
                 }
-                logit("Check to see if time based emails have been sent for today");
-                EmailLog log = referenceService.RetrieveEmailLogByDate(logDate);
-                if(log.EmailLogId == 0) //emails haven't been sent yet today
-                {
-                    logit("Time based emails have not been sent for today");
-                    sendReviewerNotifications();
-                    sendSpecialistNotifications();
-                    logit("saveNotifications");
-                    saveNotifications();
-                    log.SentDate = logDate;
-                    log.SentAmount = emailsSent;
-                    referenceService.SaveEmailLog(log);
-                }
-                else
-                {
-                    logit("Time based emails have sent for today.");
-                }
-                logit("Write Log");
-                System.IO.File.WriteAllText(Config.Settings.LogDirectory + "EmailLog-" + env + ".txt",stringBuilder.ToString());
+
+
+
+
+                //logit("Retrieving Settings");
+                //settingsList = retrieveSettings(env);
+                //logit("Settings defined");    
+                //setSettings();                    
+
+                //sendQmsDataEmails();
+
+
+                //logit("Instantiating Reference Service");
+                //referenceService = new ReferenceService(context);
+                //logit("Instantiating Corrective Action Service");
+                //correctiveActionService = new CorrectiveActionService(context);
+                //logit("Instantiating User Service");
+                //userService = new UserService(context);
+                //logit("Instantiating Notification Service");
+                //notificationService = new NotificationService(context);                
+                //logit("Loading Active Users");
+                //Users = userService.RetrieveActiveUsers();
+
+                //logit("Should Event Based Emails be sent: " + shouldSendEventBasedEmails.ToString());
+                //if(shouldSendEventBasedEmails)
+                //{
+                //    logit("executeEventBasedEmails");
+                //    executeEventBasedEmails();
+                //}
+                //logit("Check to see if time based emails have been sent for today");
+                //EmailLog log = referenceService.RetrieveEmailLogByDate(logDate);
+                //if(log.EmailLogId == 0) //emails haven't been sent yet today
+                //{
+                //    logit("Time based emails have not been sent for today");
+                //    sendReviewerNotifications();
+                //    sendSpecialistNotifications();
+                //    logit("saveNotifications");
+                //    saveNotifications();
+                //    log.SentDate = logDate;
+                //    log.SentAmount = emailsSent;
+                //    referenceService.SaveEmailLog(log);
+                //}
+                //else
+                //{
+                //    logit("Time based emails have sent for today.");
+                //}
+                //logit("Write Log");
+                //System.IO.File.WriteAllText(Config.Settings.LogDirectory + "EmailLog-" + env + ".txt",stringBuilder.ToString());
 
                
             }
