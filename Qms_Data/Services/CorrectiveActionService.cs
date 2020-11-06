@@ -10,6 +10,7 @@ using QmsCore.Engine;
 using QmsCore.Lib;
 using QmsCore.QmsException;
 using System.Text;
+using Qms_Data.UIModel;
 
 namespace QmsCore.Services
 {
@@ -188,9 +189,23 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
         return sb.ToString();
     }
 
-#endregion
+        #endregion
 
-#region "Retrieve Methods"
+        #region "Retrieve Methods"
+
+        private List<CorrectiveActionListItem> convertCorrectiveActionListItems(IQueryable<CorrectiveAction> items)
+        {
+            List<CorrectiveActionListItem> retval = new List<CorrectiveActionListItem>();
+            foreach (var item in items)
+            {
+                retval.Add(item.CorrectiveActionListItem());
+            }
+
+            return retval;
+        }
+
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -239,7 +254,12 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
             return histories;
         }
 
-        public IQueryable<CorrectiveAction> RetrieveAgingReportForUser(User user)
+        public List<CorrectiveActionListItem> RetrieveAgingReportForUser(User user)
+        {
+            return convertCorrectiveActionListItems(retrieveAgingReportForUser(user));
+        }
+
+        private IQueryable<CorrectiveAction> retrieveAgingReportForUser(User user)
         {
             bool userIsAnSCSpecialist = UserUtil.UserHasRole(user,ApplicationRoleType.SC_SPECIALIST);
             bool userIsPPRBSpecialist = UserUtil.UserHasRole(user,ApplicationRoleType.PPRB_SPECIALIST);
@@ -283,23 +303,25 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
         }
 
 
-        public IQueryable<CorrectiveAction> RetrieveAllForUser(User user)
+        public List<CorrectiveActionListItem> RetrieveAllForUser(User user)
         {
             bool userIsAnSCSpecialist = UserUtil.UserHasRole(user,ApplicationRoleType.SC_SPECIALIST);
             bool userIsPPRBSpecialist = UserUtil.UserHasRole(user,ApplicationRoleType.PPRB_SPECIALIST);
             bool userIsAPPRMSpecialist = UserUtil.UserHasRole(user,ApplicationRoleType.PPRM_SPECIALIST);
 
-            if(userIsAPPRMSpecialist)
+
+
+            if (userIsAPPRMSpecialist)
             {
-                return RetrieveAllByAssignedToUser(user.UserId);
+                return convertCorrectiveActionListItems(RetrieveAllByAssignedToUser(user.UserId));
             }
             else if(userIsPPRBSpecialist)
             {
-                return RetrieveAllByAssignedToOrCreatedByUserId(user.UserId);
+                return convertCorrectiveActionListItems(RetrieveAllByAssignedToOrCreatedByUserId(user.UserId));
             }
             else if(userIsAnSCSpecialist)
             {
-                return RetrieveAllByCreatedBy(user.UserId);
+                return convertCorrectiveActionListItems(RetrieveAllByCreatedBy(user.UserId));
             }
             else
             {
@@ -315,7 +337,7 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public IQueryable<CorrectiveAction> RetrieveAllForUserArchive(User user)
+        public List<CorrectiveActionListItem> RetrieveAllForUserArchive(User user)
         {
             bool userIsAnSCSpecialist = UserUtil.UserHasRole(user,ApplicationRoleType.SC_SPECIALIST);
             bool userIsPPRBSpecialist = UserUtil.UserHasRole(user,ApplicationRoleType.PPRB_SPECIALIST);
@@ -324,15 +346,15 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
 
             if(userIsAPPRMSpecialist)
             {
-                return RetrieveAllArchive();
+                return convertCorrectiveActionListItems(retrieveAllArchive());
             }
             else if(userIsPPRBSpecialist)
             {
-                return RetrieveAllByAssignedToOrCreatedByUserIdArchive(user.UserId);
+                return convertCorrectiveActionListItems(RetrieveAllByAssignedToOrCreatedByUserIdArchive(user.UserId));
             }
             else if(userIsAnSCSpecialist)
             {
-                return RetrieveAllByCreatedByArchive(user.UserId);
+                return convertCorrectiveActionListItems(RetrieveAllByCreatedByArchive(user.UserId));
             }
             else
             {
@@ -346,7 +368,7 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public IQueryable<CorrectiveAction> RetrieveAllForOrganization(User user)
+        public List<CorrectiveActionListItem> RetrieveAllForOrganization(User user)
         {
             bool userIsAnSCReviewer = UserUtil.UserHasRole(user,ApplicationRoleType.SC_REVIEWER);
             bool userIsPPRBReviewer = UserUtil.UserHasRole(user,ApplicationRoleType.PPRB_REVIEWER);
@@ -355,15 +377,15 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
 
             if(userIsAPPRMReviewer)
             {
-                return RetrieveAllByAssignedToOrCreatedByOrg(user.OrgId.Value);
+                return convertCorrectiveActionListItems(RetrieveAllByAssignedToOrCreatedByOrg(user.OrgId.Value));
             }
             else if(userIsPPRBReviewer)
             {
-                return RetrieveAllByAssignedToOrg(user.OrgId.Value);
+                return convertCorrectiveActionListItems(RetrieveAllByAssignedToOrg(user.OrgId.Value));
             }
             else if(userIsAnSCReviewer)
             {
-                return RetrieveAllByCreatedAtOrg(user.OrgId.Value);
+                return convertCorrectiveActionListItems(RetrieveAllByCreatedAtOrg(user.OrgId.Value));
             }
             else
             {
@@ -376,7 +398,7 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public IQueryable<CorrectiveAction> RetrieveAllForOrganizationArchive(User user)
+        public List<CorrectiveActionListItem> RetrieveAllForOrganizationArchive(User user)
         {
             bool userIsAnSCReviewer = UserUtil.UserHasRole(user,ApplicationRoleType.SC_REVIEWER);
             bool userIsPPRBReviewer = UserUtil.UserHasRole(user,ApplicationRoleType.PPRB_REVIEWER);
@@ -384,15 +406,15 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
 
             if(userIsAPPRMReviewer)
             {
-                return RetrieveAllArchive();
+                return convertCorrectiveActionListItems(retrieveAllArchive());
             }
             else if(userIsPPRBReviewer)
             {
-                return RetrieveAllByAssignedToOrCreatedByOrgArchive(user.OrgId.Value);
+                return convertCorrectiveActionListItems(RetrieveAllByAssignedToOrCreatedByOrgArchive(user.OrgId.Value));
             }
             else if(userIsAnSCReviewer)
             {
-                return RetrieveAllByCreatedAtOrgArchive(user.OrgId.Value);
+                return convertCorrectiveActionListItems(RetrieveAllByCreatedAtOrgArchive(user.OrgId.Value));
             }
             else
             {
@@ -767,13 +789,15 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
                              DeletedAt = recs.DeletedAt
                          };
             return retval;                         
-        } 
+        }
 
-        /// <summary>
-        /// PPRM REVIEWER
-        /// </summary>
-        /// <returns></returns>
-        public IQueryable<CorrectiveAction> RetrieveAllArchive()
+
+        public List<CorrectiveActionListItem> RetrieveAllArchive()
+        {
+            return convertCorrectiveActionListItems(retrieveAllArchive());
+        }
+
+        private IQueryable<CorrectiveAction> retrieveAllArchive()
         {
             DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in correctiveActionRepository.RetrieveAll()
@@ -846,9 +870,15 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
                              DeletedAt = recs.DeletedAt
                          };
             return retval;                         
-        } 
+        }
 
-        public IQueryable<CorrectiveAction> RetrieveAll()
+        public List<CorrectiveActionListItem> RetrieveAll()
+        {
+            return convertCorrectiveActionListItems(retrieveAll());
+        }
+
+
+        private IQueryable<CorrectiveAction> retrieveAll()
         {
             DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             var retval = from recs in correctiveActionRepository.RetrieveAll()
@@ -883,12 +913,13 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
             return retval;                 
         }
 
-        /// <summary>
-        ///  PPRM || PPRB Specialist
-        /// </summary>
-        /// <param name="AssignedToOrgId"></param>
-        /// <returns></returns>
-        public IQueryable<CorrectiveAction> RetrieveAllByEmployeePOID(User user)
+        public List<CorrectiveActionListItem> RetrieveAllByEmployeePOID(User user)
+        {
+            return convertCorrectiveActionListItems(retrieveAllByEmployeePOID(user));
+        }
+
+
+        private IQueryable<CorrectiveAction> retrieveAllByEmployeePOID(User user)
         {
             string personnelOfficerIdentifier = "9999";
             DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
@@ -932,12 +963,18 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
             return retval; 
         } 
 
+
+        public List<CorrectiveActionListItem> RetrieveAllByEmployeePOIDArchive(User user)
+        {
+            return convertCorrectiveActionListItems(retrieveAllByEmployeePOIDArchive(user));
+        }
+
         /// <summary>
         ///  PPRM || PPRB Specialist
         /// </summary>
         /// <param name="AssignedToOrgId"></param>
         /// <returns></returns>
-        public IQueryable<CorrectiveAction> RetrieveAllByEmployeePOIDArchive(User user)
+        private IQueryable<CorrectiveAction> retrieveAllByEmployeePOIDArchive(User user)
         {
             DateTime dateToUse = DateTime.Now.AddDays(archiveDayCount);
             string personnelOfficerIdentifier = "9999";
@@ -979,9 +1016,14 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
                              DeletedAt = recs.DeletedAt
                          };
             return retval; 
-        } 
+        }
 
-        public IQueryable<CorrectiveAction> RetrieveAgingReport(User user)
+        public List<CorrectiveActionListItem> RetrieveAgingReport(User user)
+        {
+            return convertCorrectiveActionListItems(retrieveAgingReport(user));
+        }
+
+        private IQueryable<CorrectiveAction> retrieveAgingReport(User user)
         {
             int daysBack = -7;
             int OrgIdToFind = user.OrgId.Value;

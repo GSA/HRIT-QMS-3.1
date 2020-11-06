@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using QmsCore.UIModel;
+using Qms_Data.UIModel;
 
 namespace QmsCore.Services
 {
@@ -11,15 +12,15 @@ namespace QmsCore.Services
         List<CorrectiveActionComment> RetrieveComments(int correctiveActionId);
         List<CorrectiveActionHistory> RetrieveHistory(int correctiveActionId);
         CorrectiveAction RetrieveById(int Id, User searcher);
-        IQueryable<CorrectiveAction> RetrieveAllForUser(User user);
-        IQueryable<CorrectiveAction> RetrieveAllForUserArchive(User user);
-        IQueryable<CorrectiveAction> RetrieveAllForOrganization(User user);
-        IQueryable<CorrectiveAction> RetrieveAllForOrganizationArchive(User user);
-        IQueryable<CorrectiveAction> RetrieveAll();
-        IQueryable<CorrectiveAction> RetrieveAllArchive();
-        IQueryable<CorrectiveAction> RetrieveAllByEmployeePOID(User user);
-        IQueryable<CorrectiveAction> RetrieveAllByEmployeePOIDArchive(User user);
-        IQueryable<CorrectiveAction> RetrieveAgingReport(User user);
+        List<CorrectiveActionListItem> RetrieveAllForUser(User user);
+        List<CorrectiveActionListItem> RetrieveAllForUserArchive(User user);
+        List<CorrectiveActionListItem> RetrieveAllForOrganization(User user);
+        List<CorrectiveActionListItem> RetrieveAllForOrganizationArchive(User user);
+        List<CorrectiveActionListItem> RetrieveAll();
+        List<CorrectiveActionListItem> RetrieveAllArchive();
+        List<CorrectiveActionListItem> RetrieveAllByEmployeePOID(User user);
+        List<CorrectiveActionListItem> RetrieveAllByEmployeePOIDArchive(User user);
+        List<CorrectiveActionListItem> RetrieveAgingReport(User user);
 
     }
 }

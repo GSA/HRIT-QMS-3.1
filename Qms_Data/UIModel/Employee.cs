@@ -24,7 +24,7 @@ namespace QmsCore.UIModel
         public string UserKey { get; set; }    
         public string FullName
         {
-            get{return this.FirstName + " " + this.LastName;}
+            get{return this.LastName + ", " + this.FirstName;}
         }            
         public string SearchResultValue
         {
@@ -33,7 +33,7 @@ namespace QmsCore.UIModel
 
         public string DisplayName
         {
-            get { return $"{this.EmplId} {this.FirstName} {this.MiddleName} {this.LastName}"; }
+            get { return this.FirstName + " " + this.LastName; }
         }
 
         public Employee()

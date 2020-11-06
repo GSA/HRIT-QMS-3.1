@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Qms_Data.UIModel;
 using QmsCore.Lib;
 using QmsCore.Model;
 
@@ -416,6 +417,33 @@ namespace QmsCore.UIModel
             ErrorTypes = new List<ErrorType>();
             Id = 0;
             RowVersion = 0;
+        }
+
+        internal CorrectiveActionListItem CorrectiveActionListItem()
+        {
+            CorrectiveActionListItem correctiveActionListItem = new CorrectiveActionListItem();
+            correctiveActionListItem.Id = this.Id;
+            correctiveActionListItem.EmplId = this.EmplId;
+            correctiveActionListItem.EmployeeName = this.Employee.FullName;
+
+            correctiveActionListItem.RequestType = this.ActionType.Label;
+
+            correctiveActionListItem.NatureOfAction = this.NOACode + " - " + this.NatureOfAction.ShortDescription;
+            if(this.AssignedToOrgId.HasValue)
+                correctiveActionListItem.OrgAssigned = this.AssignedToOrg.Label;
+
+            if (this.AssignedToUserId.HasValue)
+                correctiveActionListItem.PersonAssigned = this.AssignedToUser.DisplayName;
+
+            correctiveActionListItem.Status = this.Status.StatusLabel;
+            correctiveActionListItem.PriorityIndex = this.PriorityIndex;
+            correctiveActionListItem.Priority = this.Priority;
+            correctiveActionListItem.SubmittedBy = this.CreatedByUser.DisplayName;
+            correctiveActionListItem.DateSubmitted = this.CreatedAt;
+            correctiveActionListItem.DaysOld = this.DaysSinceCreated;
+
+
+            return correctiveActionListItem;
         }
 
 
