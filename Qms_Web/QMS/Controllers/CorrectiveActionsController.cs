@@ -10,6 +10,7 @@ using QMS.Extensions;
 using QMS.Constants;
 using QMS.ViewModels;
 using QMS.Utils;
+using Qms_Data.UIModel;
 
 namespace QMS.Controllers
 {
@@ -50,7 +51,7 @@ namespace QMS.Controllers
             UserViewModel qmsUserVM = HttpContext.Session.GetObject<UserViewModel>(MiscConstants.USER_SESSION_VM_KEY);
             User qmsUser = _userService.RetrieveByEmailAddress(qmsUserVM.EmailAddress);
 
-            IQueryable<CorrectiveAction> svcList = null;
+            List<CorrectiveActionListItem> svcList = null;
             string pageTitle = String.Empty;
 
             switch(useCase)
@@ -117,6 +118,7 @@ namespace QMS.Controllers
             ///////////////////////////////////////////////////////////////
             ViewData["UseCase"] = useCase;
 
+            IOrderedEnumerable<CorrectiveActionListItem> orderedSvcList = svcList.OrderBy(s => s.PriorityIndex);
 
             ///////////////////////////////////////////////////////////////
             // SORT ORDER
@@ -144,134 +146,107 @@ namespace QMS.Controllers
                 {
                     case "id_desc":
                         ViewData["IdSortParam"]  = "id_asc";
-                        svcList = svcList.OrderByDescending(s => s.Id);
+                        orderedSvcList = svcList.OrderByDescending(s => s.Id);
                         break;
                     case "id_asc":
                         ViewData["IdSortParam"]  = "id_desc";
-                         svcList = svcList.OrderBy(s => s.Id);
+                        orderedSvcList = svcList.OrderBy(s => s.Id);
                         break;
                     case "empl_id_desc":
                         ViewData["emplIdSortParam"]  = "empl_id_asc";
-                        svcList = svcList.OrderByDescending(s => s.EmplId);
+                        orderedSvcList = svcList.OrderByDescending(s => s.EmplId);
                         break;
                     case "empl_id_asc":
                         ViewData["emplIdSortParam"]  = "empl_id_desc";
-                         svcList = svcList.OrderBy(s => s.EmplId);
+                        orderedSvcList = svcList.OrderBy(s => s.EmplId);
                         break;
                     case "empl_name_desc":
                         ViewData["emplNameSortParam"]  = "empl_name_asc";
-                        svcList = svcList.OrderByDescending(s => s.Employee.LastName);
+                        orderedSvcList = svcList.OrderByDescending(s => s.EmployeeName);
                         break;
                     case "empl_name_asc":
                         ViewData["emplNameSortParam"]  = "empl_name_desc";
-                        svcList = svcList.OrderBy(s => s.Employee.LastName);
+                        orderedSvcList = svcList.OrderBy(s => s.EmployeeName);
                         break;
                     case "request_type_desc":
                         ViewData["requestTypeSortParam"]  = "request_type_asc";
-                        svcList = svcList.OrderByDescending(s => s.ActionType.Label);
+                        orderedSvcList = svcList.OrderByDescending(s => s.RequestType);
                         break;
                     case "request_type_asc":
                         ViewData["requestTypeSortParam"]  = "request_type_desc";
-                        svcList = svcList.OrderBy(s => s.ActionType.Label);
+                        orderedSvcList = svcList.OrderBy(s => s.RequestType);
                         break; 
                     case "noa_desc":
                         ViewData["noaSortParam"]  = "noa_asc";
-                        svcList = svcList.OrderByDescending(s => s.NOACode);
+                        orderedSvcList = svcList.OrderByDescending(s => s.NatureOfAction);
                         break;
                     case "noa_asc":
                         ViewData["noaSortParam"]  = "noa_desc";
-                        svcList = svcList.OrderBy(s => s.NOACode);
+                        orderedSvcList = svcList.OrderBy(s => s.NatureOfAction);
                         break;
                     case "org_desc":
                         ViewData["orgSortParam"]  = "org_asc";
-                        svcList = svcList.OrderByDescending(s => s.AssignedToOrg.OrgLabel);
+                        orderedSvcList = svcList.OrderByDescending(s => s.OrgAssigned);
                         break;
                     case "org_asc":
                         ViewData["orgSortParam"]  = "org_desc";
-                        svcList = svcList.OrderBy(s => s.AssignedToOrg.OrgLabel);
+                        orderedSvcList = svcList.OrderBy(s => s.OrgAssigned);
                         break;
                     case "person_desc":
                         ViewData["personSortParam"]  = "person_asc";
-                        svcList = svcList.OrderByDescending(s => s.AssignedToUser.DisplayName);
+                        orderedSvcList = svcList.OrderByDescending(s => s.PersonAssigned);
                         break;
                     case "person_asc":
                         ViewData["personSortParam"]  = "person_desc";
-                        svcList = svcList.OrderBy(s => s.AssignedToUser.DisplayName);
+                        orderedSvcList = svcList.OrderBy(s => s.PersonAssigned);
                         break;
                     case "status_desc":
                         ViewData["statusSortParam"]  = "status_asc";
-                        svcList = svcList.OrderByDescending(s => s.Status.StatusLabel);
+                        orderedSvcList = svcList.OrderByDescending(s => s.Status);
                         break;
                     case "status_asc":
                         ViewData["statusSortParam"]  = "status_desc";
-                        svcList = svcList.OrderBy(s => s.Status.StatusLabel);
+                        orderedSvcList = svcList.OrderBy(s => s.Status);
                         break;
                     case "priority_desc":
                         ViewData["prioritySortParam"]  = "priority_asc";
-                        svcList = svcList.OrderByDescending(s => s.PriorityIndex);
+                        orderedSvcList = svcList.OrderByDescending(s => s.PriorityIndex);
                         break;
                     case "priority_asc":
                         ViewData["prioritySortParam"]  = "priority_desc";
-                        svcList = svcList.OrderBy(s => s.PriorityIndex);
+                        orderedSvcList = svcList.OrderBy(s => s.PriorityIndex);
                         break;
                     case "submitted_by_desc":
                         ViewData["submittedBySortParam"]  = "submitted_by_asc";
-                        svcList = svcList.OrderByDescending(s => s.CreatedByUser.DisplayName);
+                        orderedSvcList = svcList.OrderByDescending(s => s.SubmittedBy);
                         break;
                     case "submitted_by_asc":
                         ViewData["submittedBySortParam"]  = "submitted_by_desc";
-                        svcList = svcList.OrderBy(s => s.CreatedByUser.DisplayName);
+                        orderedSvcList = svcList.OrderBy(s => s.SubmittedBy);
                         break; 
                     case "date_submitted_desc":
                         ViewData["dateSubmittedSortParam"]  = "date_submitted_asc";
-                        svcList = svcList.OrderByDescending(s => s.CreatedAt);
+                        orderedSvcList = svcList.OrderByDescending(s => s.DateSubmitted);
                         break;
                     case "date_submitted_asc":
                         ViewData["dateSubmittedSortParam"]  = "date_submitted_desc";
-                        svcList = svcList.OrderBy(s => s.CreatedAt);
+                        orderedSvcList = svcList.OrderBy(s => s.DateSubmitted);
                         break;   
                     case "days_old_desc":
                         ViewData["daysOldSortParam"]  = "days_old_asc";
-                        svcList = svcList.OrderByDescending(s => s.DaysSinceCreated);
+                        orderedSvcList = svcList.OrderByDescending(s => s.DaysOld);
                         break;
                     case "days_old_asc":
                         ViewData["daysOldSortParam"]  = "days_old_desc";
-                        svcList = svcList.OrderBy(s => s.DaysSinceCreated);
+                        orderedSvcList = svcList.OrderBy(s => s.DaysOld);
                         break;
                     default:
-                        svcList = svcList.OrderBy(s => s.DaysSinceCreated);
+                        orderedSvcList = svcList.OrderBy(s => s.DateSubmitted);
                         break;
                 }
             }
             
-            List<CorrectiveActionListViewModel> vmList = new List<CorrectiveActionListViewModel>();
-            Console.WriteLine(logSnippet + $"(svcList == null): '{svcList == null}'");
-            if ( svcList != null)
-            {
-                Console.WriteLine(logSnippet + $"(svcList.Count()): '{svcList.Count()}'");
-
-                foreach (CorrectiveAction ca in svcList)
-                {
-                    vmList.Add(new CorrectiveActionListViewModel{
-                       CorrectiveActionId = ca.Id,
-                       EmployeeId = ca.EmplId,
-                       EmployeeName = ca.Employee.LastName + ", " + ca.Employee.FirstName,
-                       ActionTypeLabel = ca.ActionType.Label,
-                       NatureOfActionLabel = ca.NatureOfAction.SelectOptionText,
-                    //    NatureOfActionLabel = ca.NOACode,
-                       StatusLabel = ca.Status.StatusLabel,
-                       AssignedToOrgLabel = ca.AssignedToOrg.OrgLabel,
-                       AssignedToUserName = (ca.AssignedToUser == null) ? "NA" : ca.AssignedToUser.DisplayName,
-                       Priority = ca.Priority,
-                       CreatedAt = ca.CreatedAt.ToShortDateString(),
-                       CreatedByUserName = ca.CreatedByUser.DisplayName,
-                       DaysSinceCreated = ca.DaysSinceCreated,
-                       UseCase = useCase
-                    });
-                }
-            }
-
-            return View(vmList);
+            return View(orderedSvcList);
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////
