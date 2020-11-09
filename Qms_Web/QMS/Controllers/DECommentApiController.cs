@@ -76,7 +76,7 @@ namespace QMS.Controllers
             Console.WriteLine(logSnippet + $"(deComment.Comment)...........: '{deComment.Comment}'");
             Console.WriteLine(logSnippet + $"(qmsUserVM): {qmsUserVM}");
 
-            _dataErrorService.SaveComment(deComment.Comment, deComment.CorrectiveActionId, deComment.UserId);
+            _dataErrorService.SaveComment(deComment.Comment, Int32.Parse(deComment.CorrectiveActionId), Int32.Parse(deComment.UserId));
 
             return CreatedAtAction(nameof(RetrieveAll), new { @id = deComment.CorrectiveActionId} );
         }
