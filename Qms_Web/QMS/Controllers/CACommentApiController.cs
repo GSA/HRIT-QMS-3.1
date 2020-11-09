@@ -109,7 +109,7 @@ namespace QMS.Controllers
             Console.WriteLine(logSnippet + $"(caComment.Comment)...........: '{caComment.Comment}'");
             Console.WriteLine(logSnippet + $"(qmsUserVM): {qmsUserVM}");
 
-            _correctiveActionService.SaveComment(caComment.Comment, caComment.CorrectiveActionId, caComment.UserId);
+            _correctiveActionService.SaveComment(caComment.Comment, Int32.Parse(caComment.CorrectiveActionId), Int32.Parse(caComment.UserId));
 
             return CreatedAtAction(nameof(RetrieveAll), new { @id = caComment.CorrectiveActionId} );
         }
