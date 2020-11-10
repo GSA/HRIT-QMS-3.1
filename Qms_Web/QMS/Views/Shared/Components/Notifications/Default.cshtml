@@ -87,7 +87,7 @@
     {
         foreach (var notification in notificationList)
         {
-            @if (notification.HasBeenRead == 0)
+            @if (notification.HasBeenRead)
             {
                 <div id="@notification.NotificationId" class="card mt-4 text-primary" style="border:5px double #007bff">
                     <h5 class="card-header border-primary pb-0">
