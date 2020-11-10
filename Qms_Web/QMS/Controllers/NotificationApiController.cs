@@ -27,7 +27,7 @@ namespace QMS.Controllers
                                 .ToString();
 
             Console.WriteLine(logSnippet + $"(id): {id}");
-            return new NotificationItem{ NotificationId = id };
+            return new NotificationItem{ NotificationId = Convert.ToString(id) };
         }
         
         [HttpPost]
@@ -42,7 +42,7 @@ namespace QMS.Controllers
             Console.WriteLine(logSnippet + $"(itemParam.NotificationId): {itemParam.NotificationId}");
             
             Console.WriteLine(logSnippet + $"Calling NotificationService.Delete({itemParam.NotificationId})...");
-            _notificationService.Delete(itemParam.NotificationId);
+            _notificationService.Delete(Int32.Parse(itemParam.NotificationId));
             Console.WriteLine(logSnippet + $"...Returning from  NotificationService.Delete({itemParam.NotificationId})");
             
             return CreatedAtAction(nameof(GetNotification), new { @id = itemParam.NotificationId } );

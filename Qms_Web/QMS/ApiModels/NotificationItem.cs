@@ -2,6 +2,6 @@ namespace QMS.ApiModels
 {
     public class NotificationItem
     {
-        public int NotificationId {get; set;}
+        public string NotificationId {get; set;}
     }
 }
