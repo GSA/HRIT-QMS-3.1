@@ -42,34 +42,6 @@ namespace QMS.Controllers
                 Console.WriteLine(logSnippet + $"(svcCommentList.Count)..: '{svcCommentList.Count}'");
             }
 
-            // foreach (var svcComment in svcCommentList) 
-            // {
-            //     apiCommentList.Add
-            //     ( 
-            //         new CACommentGet
-            //         {
-            //             OrgLabel = svcComment.Author.Organization.OrgLabel,
-            //             DisplayName = svcComment.Author.DisplayName,
-            //             Message = svcComment.Message,
-            //             DateCreated = svcComment.CreatedAt.ToString("MM/dd/yyyy HH:mm:ss")
-            //         }
-            //     );
-            // }
-
-            // foreach (var svcComment in svcCommentList) 
-            // {
-            //     apiCommentList.Add
-            //     ( 
-            //         new CACommentGet
-            //         {
-            //             OrgLabel = svcComment.Author.OrganizationName,
-            //             DisplayName = svcComment.Author.DisplayName,
-            //             Message = svcComment.Message,
-            //             DateCreated = svcComment.CreatedAt.ToString("MM/dd/yyyy HH:mm:ss")
-            //         }
-            //     );
-            // }
-
             foreach (CorrectiveActionComment svcComment in svcCommentList)
             {
                 Console.WriteLine(logSnippet + $"(svcCommentsvcComment.Id)................: {svcComment.Id}");
@@ -84,11 +56,6 @@ namespace QMS.Controllers
                 apiComment.DateCreated  = svcComment.CreatedAt.ToString("MM/dd/yyyy HH:mm:ss");
                 apiCommentList.Add(apiComment);
             }
-
-            // foreach ( var apiComment in apiCommentList)
-            // {
-            //     Console.WriteLine(logSnippet + apiComment);
-            // }
 
             return apiCommentList;
         }
