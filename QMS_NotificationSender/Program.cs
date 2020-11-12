@@ -304,11 +304,11 @@ namespace QMS_NotificationSender
             foreach(var reviewerId in reviewerIds)
             {
                 Notification notification = new Notification();
-                notification.HasBeenRead = 0;
+                notification.HasBeenRead = false;
                 notification.Message =  string.Format("Corrective Action {0} is {1} days old",correctiveActionId,daysOld);
                 notification.NotificationEventId = 9;
-                notification.SendAsEmail = 0;
-                notification.HasBeenRead = 0;
+                notification.SendAsEmail = false;
+                notification.HasBeenRead = false;
                 notification.SentAt = DateTime.Now;
                 notification.Title = string.Format(subjectLine,correctiveActionId);
                 notification.UserId = reviewerId;
@@ -347,10 +347,10 @@ namespace QMS_NotificationSender
             }
 
             Notification notification = new Notification();
-            notification.HasBeenRead = 0;
+            notification.HasBeenRead = false;
             notification.Message =  string.Format("Corrective Action {0} is {1} days old",correctiveActionId,daysOld);
             notification.NotificationEventId = 9;
-            notification.SendAsEmail = 0;
+            notification.SendAsEmail = false;
             notification.SentAt = DateTime.Now;
             notification.Title = string.Format(subjectLine,correctiveActionId);
             notification.UserId = userId;
