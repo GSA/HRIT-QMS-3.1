@@ -31,5 +31,7 @@ namespace QMS.ViewModels
                                                                                                 : (UserAdminConstants.UserAdminCssConstants.ALERT_CSS_FAILURE);
             }
         }
+
+        public int JustEditedRoleId { get; set; } = 0;
     }
 }

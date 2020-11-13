@@ -175,6 +175,7 @@ namespace QMS.Controllers
                 // CALL PERMISSION SERVICE TO SAVE NEWLY CREATED ROLE (with permissions) TO DATABASE
                 /////////////////////////////////////////////////////////////////////////////////////////////////
                 int roleId = _roleService.CreateRole(role);
+                roleVM.JustEditedRoleId = roleId;
                 /////////////////////////////////////////////////////////////////////////////////////////////////
 
                 roleVM.AlertType = UserAdminConstants.AlertTypeConstants.SUCCESS;
@@ -265,6 +266,7 @@ namespace QMS.Controllers
                 // INSTANTIATE AND POPULATE UIModel class (Role)
                 ///////////////////////////////////////////////////////////////////////////////////////
                 Role role = _userAdminHelper.CreateNewRole(roleCode, roleLabel, roleUpdatePermissionsIds, roleId);
+                roleVM.JustEditedRoleId = role.ID;
                 ///////////////////////////////////////////////////////////////////////////////////////
 
                 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -338,6 +340,7 @@ namespace QMS.Controllers
                 _roleService.DeactivateRole(roleId);
                 /////////////////////////////////////////////////////////////////////////////////////////////////
 
+                roleVM.JustEditedRoleId = roleId;
                 roleVM.AlertType = UserAdminConstants.AlertTypeConstants.SUCCESS;
                 roleVM.AlertMessage = $"Role {roleId} has been successfully deactivated.";
             }
@@ -397,7 +400,8 @@ namespace QMS.Controllers
                 /////////////////////////////////////////////////////////////////////////////////////////////////
                 _roleService.ReactivateRole(roleId);
                 /////////////////////////////////////////////////////////////////////////////////////////////////
-
+                
+                roleVM.JustEditedRoleId = roleId;
                 roleVM.AlertType = UserAdminConstants.AlertTypeConstants.SUCCESS;
                 roleVM.AlertMessage = $"Role {roleId} has been successfully reactivated.";
             }

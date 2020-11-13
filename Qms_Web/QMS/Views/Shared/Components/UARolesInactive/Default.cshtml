@@ -12,7 +12,16 @@
                         string masterRoleId = $"inactive-master-role-{role.RoleId}";
                         string detailRoleId = $"inactive-detail-role-{role.RoleId}";
                         string ariaControls = $"inactive-role-{role.RoleId}";
-                        string listGroupItemCssClass = (masterRowCount == 0) ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action";
+                        
+                        string listGroupItemCssClass = null;
+                        if (Model.JustEditedRoleId == 0)
+                        {
+                            listGroupItemCssClass = (masterRowCount == 0) ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action";
+                        }
+                        else
+                        {
+                            listGroupItemCssClass = (role.RoleId == Model.JustEditedRoleId) ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action";
+                        }
 
                     <a class="@listGroupItemCssClass"
                        id="@masterRoleId"
@@ -38,7 +47,17 @@
                         string updateRoleId = $"inactive-update-role-{role.RoleId}";
                         string updateRoleCodeId = $"inactive-update-role-code-{role.RoleId}";
                         string updateRoleLabelId = $"inactive-update-role-label-{role.RoleId}";
-                        string tabPaneFadeCssClass = (detailRowCount == 0) ? "tab-pane fade show active" : "tab-pane fade";
+
+                        string tabPaneFadeCssClass = null;
+                        if (Model.JustEditedRoleId == 0)
+                        {
+                            tabPaneFadeCssClass = (detailRowCount == 0) ? "tab-pane fade show active" : "tab-pane fade";
+                        }
+                        else
+                        {
+                            tabPaneFadeCssClass = (role.RoleId == Model.JustEditedRoleId) ? "tab-pane fade show active" : "tab-pane fade";
+                        }
+
 
                     <div class="@tabPaneFadeCssClass"
                          id="@detailRoleId"
