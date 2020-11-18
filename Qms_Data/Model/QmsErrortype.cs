@@ -17,6 +17,6 @@ namespace QmsCore.Model
         public DateTime? CreatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
-        public ICollection<QmsCorrectiveactionErrortype> QmsCorrectiveactionErrortype { get; set; }
+        public virtual ICollection<QmsCorrectiveactionErrortype> QmsCorrectiveactionErrortype { get; set; }
     }
 }

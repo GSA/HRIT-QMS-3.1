@@ -3,15 +3,10 @@ using System.Collections.Generic;
 
 namespace QmsCore.Model
 {
-    public partial class QmsEmployee
+    public partial class HrlinksEmployee
     {
-        public QmsEmployee()
-        {
-            QmsCorrectiveactionrequest = new HashSet<QmsCorrectiveactionrequest>();
-            QmsDataerror = new HashSet<QmsDataerror>();
-        }
-
         public string EmplId { get; set; }
+        public string Ssn { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
@@ -22,11 +17,6 @@ namespace QmsCore.Model
         public string PayPlan { get; set; }
         public string Grade { get; set; }
         public string ManagerId { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
-        public string UserKey { get; set; }
-
-        public virtual ICollection<QmsCorrectiveactionrequest> QmsCorrectiveactionrequest { get; set; }
-        public virtual ICollection<QmsDataerror> QmsDataerror { get; set; }
+        public string Userkey { get; set; }
     }
 }

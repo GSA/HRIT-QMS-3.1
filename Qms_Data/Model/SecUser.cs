@@ -34,23 +34,23 @@ namespace QmsCore.Model
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
-        public SecUser Manager { get; set; }
-        public SecOrg Org { get; set; }
-        public ICollection<SecUser> InverseManager { get; set; }
-        public ICollection<NtfNotification> NtfNotification { get; set; }
-        public ICollection<NtfNotificationuserpreference> NtfNotificationuserpreference { get; set; }
-        public ICollection<QmsCorrectiveactionrequest> QmsCorrectiveactionrequestAssignedByUser { get; set; }
-        public ICollection<QmsCorrectiveactionrequest> QmsCorrectiveactionrequestAssignedToUser { get; set; }
-        public ICollection<QmsCorrectiveactionrequest> QmsCorrectiveactionrequestCreatedByUser { get; set; }
-        public ICollection<QmsDataerror> QmsDataerrorAssignedByUser { get; set; }
-        public ICollection<QmsDataerror> QmsDataerrorAssignedToUser { get; set; }
-        public ICollection<QmsDataerror> QmsDataerrorCreatedByUser { get; set; }
-        public ICollection<QmsWorkitemcomment> QmsWorkitemcomment { get; set; }
-        public ICollection<QmsWorkitemfile> QmsWorkitemfile { get; set; }
-        public ICollection<QmsWorkitemhistory> QmsWorkitemhistoryActionTakenByUser { get; set; }
-        public ICollection<QmsWorkitemhistory> QmsWorkitemhistoryPreviousAssignedByUser { get; set; }
-        public ICollection<QmsWorkitemhistory> QmsWorkitemhistoryPreviousAssignedtoUser { get; set; }
-        public ICollection<SecSecuritylog> SecSecuritylog { get; set; }
-        public ICollection<SecUserRole> SecUserRole { get; set; }
+        public virtual SecUser Manager { get; set; }
+        public virtual SecOrg Org { get; set; }
+        public virtual ICollection<SecUser> InverseManager { get; set; }
+        public virtual ICollection<NtfNotification> NtfNotification { get; set; }
+        public virtual ICollection<NtfNotificationuserpreference> NtfNotificationuserpreference { get; set; }
+        public virtual ICollection<QmsCorrectiveactionrequest> QmsCorrectiveactionrequestAssignedByUser { get; set; }
+        public virtual ICollection<QmsCorrectiveactionrequest> QmsCorrectiveactionrequestAssignedToUser { get; set; }
+        public virtual ICollection<QmsCorrectiveactionrequest> QmsCorrectiveactionrequestCreatedByUser { get; set; }
+        public virtual ICollection<QmsDataerror> QmsDataerrorAssignedByUser { get; set; }
+        public virtual ICollection<QmsDataerror> QmsDataerrorAssignedToUser { get; set; }
+        public virtual ICollection<QmsDataerror> QmsDataerrorCreatedByUser { get; set; }
+        public virtual ICollection<QmsWorkitemcomment> QmsWorkitemcomment { get; set; }
+        public virtual ICollection<QmsWorkitemfile> QmsWorkitemfile { get; set; }
+        public virtual ICollection<QmsWorkitemhistory> QmsWorkitemhistoryActionTakenByUser { get; set; }
+        public virtual ICollection<QmsWorkitemhistory> QmsWorkitemhistoryPreviousAssignedByUser { get; set; }
+        public virtual ICollection<QmsWorkitemhistory> QmsWorkitemhistoryPreviousAssignedtoUser { get; set; }
+        public virtual ICollection<SecSecuritylog> SecSecuritylog { get; set; }
+        public virtual ICollection<SecUserRole> SecUserRole { get; set; }
     }
 }

@@ -16,11 +16,11 @@ namespace QmsCore.Model
         public int? PreviousAssignedByUserId { get; set; }
         public string ActionDescription { get; set; }
 
-        public SecUser ActionTakenByUser { get; set; }
-        public SecUser PreviousAssignedByUser { get; set; }
-        public SecOrg PreviousAssignedToOrg { get; set; }
-        public SecUser PreviousAssignedtoUser { get; set; }
-        public QmsStatus PreviousStatus { get; set; }
-        public QmsWorkitemtype WorkItemTypeCodeNavigation { get; set; }
+        public virtual SecUser ActionTakenByUser { get; set; }
+        public virtual SecUser PreviousAssignedByUser { get; set; }
+        public virtual SecOrg PreviousAssignedToOrg { get; set; }
+        public virtual SecUser PreviousAssignedtoUser { get; set; }
+        public virtual QmsStatus PreviousStatus { get; set; }
+        public virtual QmsWorkitemtype WorkItemTypeCodeNavigation { get; set; }
     }
 }

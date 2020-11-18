@@ -28,10 +28,21 @@ namespace QmsCore.Repository
 
         public int Update(NtfNotification newNotification)
         {
-            NtfNotification oldNotification = RetrieveNotificationById(newNotification.NotificationId);
-            context.Entry(oldNotification).State = EntityState.Deleted;
-            context.Entry(newNotification).State = EntityState.Modified;
-            return context.SaveChanges();           
+            int retval = -1;
+            try
+            {
+                NtfNotification oldNotification = RetrieveNotificationById(newNotification.NotificationId);
+                context.Entry(oldNotification).State = EntityState.Deleted;
+                context.Entry(newNotification).State = EntityState.Modified;
+                retval = context.SaveChanges();
+            }
+            catch (Exception x)
+            {
+                Console.WriteLine(x.Message);
+            }
+            return retval;
+
+
         }
 
         public int Insert(NtfNotification notification)

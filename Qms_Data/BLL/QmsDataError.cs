@@ -16,5 +16,6 @@ namespace QmsCore.Model
                 return Model.WorkItemTypeEnum.EHRI;
             }
         }
+
     }//end class
 }//end namespace

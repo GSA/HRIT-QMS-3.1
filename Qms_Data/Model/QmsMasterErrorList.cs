@@ -22,9 +22,9 @@ namespace QmsCore.Model
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
-        public QmsDataItem DataItem { get; set; }
-        public QmsDataerrortype DataRoutingType { get; set; }
-        public QmsErrorroutingtype ErrorRoutingType { get; set; }
-        public ICollection<QmsDataerror> QmsDataerror { get; set; }
+        public virtual QmsDataItem DataItem { get; set; }
+        public virtual QmsDataerrortype DataRoutingType { get; set; }
+        public virtual QmsErrorroutingtype ErrorRoutingType { get; set; }
+        public virtual ICollection<QmsDataerror> QmsDataerror { get; set; }
     }
 }

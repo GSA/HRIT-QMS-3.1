@@ -11,7 +11,7 @@ namespace QmsCore.Model
         public byte MessageDeliveryIsOn { get; set; }
         public byte CanBeTurnedOffByUser { get; set; }
 
-        public NtfNotificationevent NotificationEvent { get; set; }
-        public SecUser User { get; set; }
+        public virtual NtfNotificationevent NotificationEvent { get; set; }
+        public virtual SecUser User { get; set; }
     }
 }

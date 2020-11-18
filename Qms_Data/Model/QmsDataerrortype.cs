@@ -17,6 +17,6 @@ namespace QmsCore.Model
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
-        public ICollection<QmsMasterErrorList> QmsMasterErrorList { get; set; }
+        public virtual ICollection<QmsMasterErrorList> QmsMasterErrorList { get; set; }
     }
 }

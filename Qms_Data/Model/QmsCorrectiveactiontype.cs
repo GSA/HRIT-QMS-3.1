@@ -17,6 +17,6 @@ namespace QmsCore.Model
         public DateTime? DeletedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
-        public ICollection<QmsCorrectiveactionrequest> QmsCorrectiveactionrequest { get; set; }
+        public virtual ICollection<QmsCorrectiveactionrequest> QmsCorrectiveactionrequest { get; set; }
     }
 }

@@ -18,31 +18,31 @@ namespace QmsCore.Model
         public DateTime EffectiveDateOfPar { get; set; }
         public string IsPaymentMismatch { get; set; }
         public DateTime? PareffectiveDate { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public DateTime? ResolvedAt { get; set; }
+        public DateTime? Createdat { get; set; }
+        public DateTime? Updatedat { get; set; }
+        public DateTime? Resolvedat { get; set; }
         public int? AssignedByUserId { get; set; }
         public int? AssignedToUserId { get; set; }
         public int? AssignedToOrgId { get; set; }
-        public DateTime? AssignedAt { get; set; }
+        public DateTime? Assignedat { get; set; }
         public int? StatusId { get; set; }
-        public DateTime? SubmittedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
+        public DateTime? Submittedat { get; set; }
+        public DateTime? Deletedat { get; set; }
         public int? CreatedByUserId { get; set; }
         public string Details { get; set; }
         public int? CreatedAtOrgId { get; set; }
         public byte RowVersion { get; set; }
 
-        public QmsCorrectiveactiontype ActionRequestType { get; set; }
-        public SecUser AssignedByUser { get; set; }
-        public SecOrg AssignedToOrg { get; set; }
-        public SecUser AssignedToUser { get; set; }
-        public SecOrg CreatedAtOrg { get; set; }
-        public SecUser CreatedByUser { get; set; }
-        public QmsEmployee Empl { get; set; }
-        public QmsNatureofaction NatureOfActionNavigation { get; set; }
-        public QmsStatus Status { get; set; }
-        public ICollection<QmsCorrectiveactionErrortype> QmsCorrectiveactionErrortype { get; set; }
-        public ICollection<QmsDataerror> QmsDataerror { get; set; }
+        public virtual QmsCorrectiveactiontype ActionRequestType { get; set; }
+        public virtual SecUser AssignedByUser { get; set; }
+        public virtual SecOrg AssignedToOrg { get; set; }
+        public virtual SecUser AssignedToUser { get; set; }
+        public virtual SecOrg CreatedAtOrg { get; set; }
+        public virtual SecUser CreatedByUser { get; set; }
+        public virtual QmsEmployee Empl { get; set; }
+        public virtual QmsNatureofaction NatureOfActionNavigation { get; set; }
+        public virtual QmsStatus Status { get; set; }
+        public virtual ICollection<QmsCorrectiveactionErrortype> QmsCorrectiveactionErrortype { get; set; }
+        public virtual ICollection<QmsDataerror> QmsDataerror { get; set; }
     }
 }

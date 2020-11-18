@@ -14,7 +14,7 @@ namespace QmsCore.Model
         public DateTime Createdat { get; set; }
         public DateTime Deletedat { get; set; }
 
-        public SecUser UploadedByUser { get; set; }
-        public QmsWorkitemtype WorkItemTypeCodeNavigation { get; set; }
+        public virtual SecUser UploadedByUser { get; set; }
+        public virtual QmsWorkitemtype WorkItemTypeCodeNavigation { get; set; }
     }
 }

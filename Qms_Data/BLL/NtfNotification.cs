@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QmsCore.Model
 {
     public partial class NtfNotification
     {
+
+
         public NtfNotification()
         {
 

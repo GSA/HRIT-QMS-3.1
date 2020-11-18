@@ -26,14 +26,14 @@ namespace QmsCore.Model
         public DateTime? DeletedAt { get; set; }
         public int? OrgtypeId { get; set; }
 
-        public SecOrg ParentOrg { get; set; }
-        public ICollection<SecOrg> InverseParentOrg { get; set; }
-        public ICollection<QmsCorrectiveactionrequest> QmsCorrectiveactionrequestAssignedToOrg { get; set; }
-        public ICollection<QmsCorrectiveactionrequest> QmsCorrectiveactionrequestCreatedAtOrg { get; set; }
-        public ICollection<QmsDataerror> QmsDataerrorAssignedToOrg { get; set; }
-        public ICollection<QmsDataerror> QmsDataerrorCreatedByOrg { get; set; }
-        public ICollection<QmsPersonnelOfficeIdentifier> QmsPersonnelOfficeIdentifier { get; set; }
-        public ICollection<QmsWorkitemhistory> QmsWorkitemhistory { get; set; }
-        public ICollection<SecUser> SecUser { get; set; }
+        public virtual SecOrg ParentOrg { get; set; }
+        public virtual ICollection<SecOrg> InverseParentOrg { get; set; }
+        public virtual ICollection<QmsCorrectiveactionrequest> QmsCorrectiveactionrequestAssignedToOrg { get; set; }
+        public virtual ICollection<QmsCorrectiveactionrequest> QmsCorrectiveactionrequestCreatedAtOrg { get; set; }
+        public virtual ICollection<QmsDataerror> QmsDataerrorAssignedToOrg { get; set; }
+        public virtual ICollection<QmsDataerror> QmsDataerrorCreatedByOrg { get; set; }
+        public virtual ICollection<QmsPersonnelOfficeIdentifier> QmsPersonnelOfficeIdentifier { get; set; }
+        public virtual ICollection<QmsWorkitemhistory> QmsWorkitemhistory { get; set; }
+        public virtual ICollection<SecUser> SecUser { get; set; }
     }
 }

@@ -12,6 +12,6 @@ namespace QmsCore.Model
         public DateTime CreatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
-        public SecOrg Org { get; set; }
+        public virtual SecOrg Org { get; set; }
     }
 }

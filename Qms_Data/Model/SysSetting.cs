@@ -10,6 +10,6 @@ namespace QmsCore.Model
         public string SettingValue { get; set; }
         public string Environment { get; set; }
 
-        public SysSettingtype SettingType { get; set; }
+        public virtual SysSettingtype SettingType { get; set; }
     }
 }

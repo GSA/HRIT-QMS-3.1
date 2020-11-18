@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace QmsCore.Model
 {
-    public partial class QmsOrgStatusTrans
+    public partial class ZTestQmsStatusTransitionMatrix
     {
         public int OrgStatusTransId { get; set; }
         public int StatusTransId { get; set; }
@@ -12,10 +12,12 @@ namespace QmsCore.Model
         public DateTime CreatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-        public string WorkItemTypeCode { get; set; }
-
-        public virtual QmsStatusTrans StatusTrans { get; set; }
-        public virtual QmsOrgtype ToOrgtype { get; set; }
-        public virtual QmsWorkitemtype WorkItemTypeCodeNavigation { get; set; }
+        public int FromStatusId { get; set; }
+        public int ToStatusId { get; set; }
+        public string FromStatus { get; set; }
+        public string ToStatus { get; set; }
+        public string FromOrg { get; set; }
+        public string ToOrgType { get; set; }
+        public string WorkItemType { get; set; }
     }
 }

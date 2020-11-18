@@ -22,7 +22,7 @@ namespace QmsCore.Model
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
-        public ICollection<SysMenuitem> SysMenuitem { get; set; }
-        public ICollection<SysModuleRole> SysModuleRole { get; set; }
+        public virtual ICollection<SysMenuitem> SysMenuitem { get; set; }
+        public virtual ICollection<SysModuleRole> SysModuleRole { get; set; }
     }
 }
