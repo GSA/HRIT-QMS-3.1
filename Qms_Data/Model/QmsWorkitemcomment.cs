@@ -14,7 +14,7 @@ namespace QmsCore.Model
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
-        public virtual SecUser Author { get; set; }
-        public virtual QmsWorkitemtype WorkItemTypeCodeNavigation { get; set; }
+        public SecUser Author { get; set; }
+        public QmsWorkitemtype WorkItemTypeCodeNavigation { get; set; }
     }
 }

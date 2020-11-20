@@ -17,10 +17,7 @@ namespace QmsCore.Model
         DateTime? UpdatedAt { get; set; }
         DateTime? ResolvedAt { get; set; }
         DateTime? DeletedAt { get; set; }
-//        SecUser AssignedByUser { get; set; }
-//        Organization AssignedToOrg { get; set; }
-//        User AssignedToUser { get; set; }
-//        QmsStatus Status { get; set; }    
+  
         string WorkItemType { get; }    
         int? CreatedByUserId { get; set; }   
     }

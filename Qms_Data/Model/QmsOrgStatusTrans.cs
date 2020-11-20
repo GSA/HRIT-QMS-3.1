@@ -14,8 +14,8 @@ namespace QmsCore.Model
         public DateTime? UpdatedAt { get; set; }
         public string WorkItemTypeCode { get; set; }
 
-        public virtual QmsStatusTrans StatusTrans { get; set; }
-        public virtual QmsOrgtype ToOrgtype { get; set; }
-        public virtual QmsWorkitemtype WorkItemTypeCodeNavigation { get; set; }
+        public QmsStatusTrans StatusTrans { get; set; }
+        public QmsOrgtype ToOrgtype { get; set; }
+        public QmsWorkitemtype WorkItemTypeCodeNavigation { get; set; }
     }
 }

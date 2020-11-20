@@ -19,8 +19,8 @@ namespace QmsCore.Model
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
-        public virtual QmsStatus FromStatus { get; set; }
-        public virtual QmsStatus ToStatus { get; set; }
-        public virtual ICollection<QmsOrgStatusTrans> QmsOrgStatusTrans { get; set; }
+        public QmsStatus FromStatus { get; set; }
+        public QmsStatus ToStatus { get; set; }
+        public ICollection<QmsOrgStatusTrans> QmsOrgStatusTrans { get; set; }
     }
 }

@@ -125,16 +125,20 @@ namespace QmsCore.Engine
 
         internal void sendOrganizationalMessage(CorrectiveAction ca, NtfNotificationevent ne, QmsWorkitemcomment comment)
         {
+            byte byteTrue = 1;
+            byte byteFalse = 0;
+
             List<SecUser> users = getReviewersInOrg(ca.AssignedToOrgId.Value);
             string[] emails = new string[users.Count];
             NtfNotification notification = new NtfNotification();
             notification.CreatedAt = DateTime.Now;
             notification.Title = string.Format(ne.TitleTemplate,ca.Id);
             notification.Message = formatMessage(ca,comment);
-            notification.HasBeenRead = 0;
+            notification.SendAsEmail = byteTrue;
+            notification.HasBeenRead = byteFalse;
             notification.WorkitemId = ca.Id;
             notification.WorkItemTypeCode = WorkItemTypeEnum.CorrectiveActionRequest;
-            notification.SendAsEmail = 1;
+
             notification.NotificationEventId = ne.NotificationEventId;
 
             int i = 0;
@@ -147,6 +151,16 @@ namespace QmsCore.Engine
                 i++;                
             }
             send(emails,notification.Title,notification.Message);
+
+            var entries = context.ChangeTracker.Entries().Where(e => e.State == Microsoft.EntityFrameworkCore.EntityState.Added);
+            foreach (var entry in entries)
+            {
+                Console.WriteLine(entry.Entity.ToString());
+            }
+
+
+
+
             context.SaveChanges();            
         }
 

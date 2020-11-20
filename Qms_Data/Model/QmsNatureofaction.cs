@@ -19,6 +19,6 @@ namespace QmsCore.Model
         public string ShortDescription { get; set; }
         public string RoutesToBr { get; set; }
 
-        public virtual ICollection<QmsCorrectiveactionrequest> QmsCorrectiveactionrequest { get; set; }
+        public ICollection<QmsCorrectiveactionrequest> QmsCorrectiveactionrequest { get; set; }
     }
 }

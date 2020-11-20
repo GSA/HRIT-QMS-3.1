@@ -12,7 +12,7 @@ namespace QmsCore.Model
         public string Description { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        public virtual SecUser ActionTakenByUser { get; set; }
-        public virtual SecSecuritylogtype SecurityLogType { get; set; }
+        public SecUser ActionTakenByUser { get; set; }
+        public SecSecuritylogtype SecurityLogType { get; set; }
     }
 }

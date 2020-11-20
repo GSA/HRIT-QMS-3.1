@@ -26,7 +26,7 @@ namespace QmsCore.Model
         public DateTime? DeletedAt { get; set; }
         public string UserKey { get; set; }
 
-        public virtual ICollection<QmsCorrectiveactionrequest> QmsCorrectiveactionrequest { get; set; }
-        public virtual ICollection<QmsDataerror> QmsDataerror { get; set; }
+        public ICollection<QmsCorrectiveactionrequest> QmsCorrectiveactionrequest { get; set; }
+        public ICollection<QmsDataerror> QmsDataerror { get; set; }
     }
 }

@@ -27,14 +27,14 @@ namespace QmsCore.Model
         public DateTime? DeletedAt { get; set; }
         public byte? RowVersion { get; set; }
 
-        public virtual SecUser AssignedByUser { get; set; }
-        public virtual SecOrg AssignedToOrg { get; set; }
-        public virtual SecUser AssignedToUser { get; set; }
-        public virtual QmsCorrectiveactionrequest CorrectiveAction { get; set; }
-        public virtual SecOrg CreatedByOrg { get; set; }
-        public virtual SecUser CreatedByUser { get; set; }
-        public virtual QmsEmployee Empl { get; set; }
-        public virtual QmsMasterErrorList ErrorList { get; set; }
-        public virtual QmsStatus Status { get; set; }
+        public SecUser AssignedByUser { get; set; }
+        public SecOrg AssignedToOrg { get; set; }
+        public SecUser AssignedToUser { get; set; }
+        public QmsCorrectiveactionrequest CorrectiveAction { get; set; }
+        public SecOrg CreatedByOrg { get; set; }
+        public SecUser CreatedByUser { get; set; }
+        public QmsEmployee Empl { get; set; }
+        public QmsMasterErrorList ErrorList { get; set; }
+        public QmsStatus Status { get; set; }
     }
 }

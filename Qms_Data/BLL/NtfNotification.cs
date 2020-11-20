@@ -10,7 +10,8 @@ namespace QmsCore.Model
 
         public NtfNotification()
         {
-
+            this.HasBeenRead = 0;
+            this.SendAsEmail = 0;
         }
         public NtfNotification Clone()
         {

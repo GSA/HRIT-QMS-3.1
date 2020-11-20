@@ -11,6 +11,6 @@ namespace QmsCore.Model
         public string WorkItemTypeCode { get; set; }
         public int Userid { get; set; }
 
-        public virtual QmsWorkitemtype WorkItemTypeCodeNavigation { get; set; }
+        public QmsWorkitemtype WorkItemTypeCodeNavigation { get; set; }
     }
 }

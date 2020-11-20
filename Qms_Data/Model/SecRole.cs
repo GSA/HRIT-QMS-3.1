@@ -19,8 +19,8 @@ namespace QmsCore.Model
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
-        public virtual ICollection<SecRolePermission> SecRolePermission { get; set; }
-        public virtual ICollection<SecUserRole> SecUserRole { get; set; }
-        public virtual ICollection<SysModuleRole> SysModuleRole { get; set; }
+        public ICollection<SecRolePermission> SecRolePermission { get; set; }
+        public ICollection<SecUserRole> SecUserRole { get; set; }
+        public ICollection<SysModuleRole> SysModuleRole { get; set; }
     }
 }

@@ -23,11 +23,11 @@ namespace QmsCore.Model
         public DateTime CreatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
-        public virtual ICollection<NtfNotification> NtfNotification { get; set; }
-        public virtual ICollection<QmsOrgStatusTrans> QmsOrgStatusTrans { get; set; }
-        public virtual ICollection<QmsWorkitemcomment> QmsWorkitemcomment { get; set; }
-        public virtual ICollection<QmsWorkitemfile> QmsWorkitemfile { get; set; }
-        public virtual ICollection<QmsWorkitemhistory> QmsWorkitemhistory { get; set; }
-        public virtual ICollection<QmsWorkitemviewlog> QmsWorkitemviewlog { get; set; }
+        public ICollection<NtfNotification> NtfNotification { get; set; }
+        public ICollection<QmsOrgStatusTrans> QmsOrgStatusTrans { get; set; }
+        public ICollection<QmsWorkitemcomment> QmsWorkitemcomment { get; set; }
+        public ICollection<QmsWorkitemfile> QmsWorkitemfile { get; set; }
+        public ICollection<QmsWorkitemhistory> QmsWorkitemhistory { get; set; }
+        public ICollection<QmsWorkitemviewlog> QmsWorkitemviewlog { get; set; }
     }
 }

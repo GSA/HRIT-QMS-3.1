@@ -18,7 +18,7 @@ namespace QmsCore.Model
         public DateTime? CreatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
-        public virtual SecSecurityitemtype SecurityItemType { get; set; }
-        public virtual ICollection<SecSecuritylog> SecSecuritylog { get; set; }
+        public SecSecurityitemtype SecurityItemType { get; set; }
+        public ICollection<SecSecuritylog> SecSecuritylog { get; set; }
     }
 }

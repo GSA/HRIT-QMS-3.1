@@ -12,7 +12,7 @@ namespace QmsCore.Model
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
-        public virtual SecRole Role { get; set; }
-        public virtual SecUser User { get; set; }
+        public SecRole Role { get; set; }
+        public SecUser User { get; set; }
     }
 }

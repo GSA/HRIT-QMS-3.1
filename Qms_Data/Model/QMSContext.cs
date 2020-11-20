@@ -15,7 +15,6 @@ namespace QmsCore.Model
         {
         }
 
-        public virtual DbSet<HrlinksEmployee> HrlinksEmployee { get; set; }
         public virtual DbSet<NtfEmaillog> NtfEmaillog { get; set; }
         public virtual DbSet<NtfNotification> NtfNotification { get; set; }
         public virtual DbSet<NtfNotificationevent> NtfNotificationevent { get; set; }
@@ -24,11 +23,9 @@ namespace QmsCore.Model
         public virtual DbSet<QmsCorrectiveactionErrortype> QmsCorrectiveactionErrortype { get; set; }
         public virtual DbSet<QmsCorrectiveactionrequest> QmsCorrectiveactionrequest { get; set; }
         public virtual DbSet<QmsCorrectiveactiontype> QmsCorrectiveactiontype { get; set; }
-        public virtual DbSet<QmsDataItem> QmsDataItem { get; set; }
         public virtual DbSet<QmsDataerror> QmsDataerror { get; set; }
         public virtual DbSet<QmsDataerrortype> QmsDataerrortype { get; set; }
-        public virtual DbSet<QmsDatametricsforerrortype> QmsDatametricsforerrortype { get; set; }
-        public virtual DbSet<QmsDatametricsrecordslist> QmsDatametricsrecordslist { get; set; }
+        public virtual DbSet<QmsDataItem> QmsDataItem { get; set; }
         public virtual DbSet<QmsEmployee> QmsEmployee { get; set; }
         public virtual DbSet<QmsErrorroutingtype> QmsErrorroutingtype { get; set; }
         public virtual DbSet<QmsErrortype> QmsErrortype { get; set; }
@@ -53,120 +50,30 @@ namespace QmsCore.Model
         public virtual DbSet<SecSecuritylog> SecSecuritylog { get; set; }
         public virtual DbSet<SecSecuritylogtype> SecSecuritylogtype { get; set; }
         public virtual DbSet<SecUser> SecUser { get; set; }
-        public virtual DbSet<SecUserRole> SecUserRole { get; set; }
         public virtual DbSet<SecUserlogin> SecUserlogin { get; set; }
+        public virtual DbSet<SecUserRole> SecUserRole { get; set; }
         public virtual DbSet<SysMenuitem> SysMenuitem { get; set; }
         public virtual DbSet<SysModule> SysModule { get; set; }
         public virtual DbSet<SysModuleRole> SysModuleRole { get; set; }
         public virtual DbSet<SysSetting> SysSetting { get; set; }
         public virtual DbSet<SysSettingtype> SysSettingtype { get; set; }
-        public virtual DbSet<ZTestQmsCorrectiveaction> ZTestQmsCorrectiveaction { get; set; }
-        public virtual DbSet<ZTestQmsCorrectiveactionerrors> ZTestQmsCorrectiveactionerrors { get; set; }
-        public virtual DbSet<ZTestQmsRolePermissionMatrix> ZTestQmsRolePermissionMatrix { get; set; }
-        public virtual DbSet<ZTestQmsStatusTransitionMatrix> ZTestQmsStatusTransitionMatrix { get; set; }
-        public virtual DbSet<ZTestQmsWorkitemcomment> ZTestQmsWorkitemcomment { get; set; }
-        public virtual DbSet<ZTestQmsWorkitemhistory> ZTestQmsWorkitemhistory { get; set; }
-        public virtual DbSet<ZTestQmsWorkitemviewlog> ZTestQmsWorkitemviewlog { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseLazyLoadingProxies().UseMySQL(Config.Settings.ReconDB);
+                optionsBuilder.UseMySQL(Config.Settings.ReconDB);
+//                optionsBuilder.UseMySql(Config.Settings.ReconDB);
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<HrlinksEmployee>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("hrlinks_employee");
-
-                entity.Property(e => e.AgencySubElement)
-                    .IsRequired()
-                    .HasMaxLength(5)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("''");
-
-                entity.Property(e => e.DepartmentId)
-                    .IsRequired()
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("''");
-
-                entity.Property(e => e.EmailAddress)
-                    .IsRequired()
-                    .HasMaxLength(70)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("''");
-
-                entity.Property(e => e.EmplId)
-                    .IsRequired()
-                    .HasMaxLength(11)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("''");
-
-                entity.Property(e => e.FirstName)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("''");
-
-                entity.Property(e => e.Grade)
-                    .IsRequired()
-                    .HasMaxLength(3)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("''");
-
-                entity.Property(e => e.LastName)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("''");
-
-                entity.Property(e => e.ManagerId)
-                    .IsRequired()
-                    .HasMaxLength(11)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("''");
-
-                entity.Property(e => e.MiddleName)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("''");
-
-                entity.Property(e => e.PayPlan)
-                    .IsRequired()
-                    .HasMaxLength(2)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("''");
-
-                entity.Property(e => e.PersonnelOfficeIdentifier)
-                    .IsRequired()
-                    .HasMaxLength(4)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("''");
-
-                entity.Property(e => e.Ssn)
-                    .IsRequired()
-                    .HasMaxLength(20)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("''");
-
-                entity.Property(e => e.Userkey)
-                    .HasMaxLength(128)
-                    .IsUnicode(false);
-            });
-
             modelBuilder.Entity<NtfEmaillog>(entity =>
             {
-                entity.HasKey(e => e.EmailLogId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.EmailLogId);
 
-                entity.ToTable("ntf_emaillog");
+                entity.ToTable("ntf_emaillog", "aca");
 
                 entity.HasIndex(e => e.SentDate)
                     .HasName("ntf_emaillog_uc")
@@ -174,7 +81,9 @@ namespace QmsCore.Model
 
                 entity.Property(e => e.EmailLogId).HasColumnType("int(10)");
 
-                entity.Property(e => e.SentAmount).HasColumnType("int(10)");
+                entity.Property(e => e.SentAmount)
+                    .HasColumnType("int(10)")
+                    .HasDefaultValueSql("0");
 
                 entity.Property(e => e.SentDate)
                     .IsRequired()
@@ -184,10 +93,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<NtfNotification>(entity =>
             {
-                entity.HasKey(e => e.NotificationId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.NotificationId);
 
-                entity.ToTable("ntf_notification");
+                entity.ToTable("ntf_notification", "aca");
 
                 entity.HasIndex(e => e.NotificationEventId)
                     .HasName("ntf_Notification_notificationEvent_fk");
@@ -202,7 +110,9 @@ namespace QmsCore.Model
                     .HasColumnName("Notification_Id")
                     .HasColumnType("int(10)");
 
-                entity.Property(e => e.HasBeenRead).HasColumnType("tinyint(1)");
+                entity.Property(e => e.HasBeenRead)
+                    .HasColumnType("tinyint(1)")
+                    .HasDefaultValueSql("0");
 
                 entity.Property(e => e.Message)
                     .IsRequired()
@@ -213,7 +123,9 @@ namespace QmsCore.Model
                     .HasColumnName("NotificationEvent_Id")
                     .HasColumnType("int(10)");
 
-                entity.Property(e => e.SendAsEmail).HasColumnType("tinyint(1)");
+                entity.Property(e => e.SendAsEmail)
+                    .HasColumnType("tinyint(1)")
+                    .HasDefaultValueSql("0");
 
                 entity.Property(e => e.Title)
                     .IsRequired()
@@ -253,10 +165,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<NtfNotificationevent>(entity =>
             {
-                entity.HasKey(e => e.NotificationEventId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.NotificationEventId);
 
-                entity.ToTable("ntf_notificationevent");
+                entity.ToTable("ntf_notificationevent", "aca");
 
                 entity.HasIndex(e => e.NotificationEventTypeId)
                     .HasName("ntf_NotificationEvent_notificationEventType_fk");
@@ -268,7 +179,7 @@ namespace QmsCore.Model
                 entity.Property(e => e.MessageTemplate)
                     .HasMaxLength(2000)
                     .IsUnicode(false)
-                    .HasDefaultValueSql("'Corrective Acton ID: {0}<br/>Updated on: {1}<br/>Employee: {2}-{3}'");
+                    .HasDefaultValueSql("Corrective Acton ID: {0}<br/>Updated on: {1}<br/>Employee: {2}-{3}");
 
                 entity.Property(e => e.NotificationEventCode)
                     .IsRequired()
@@ -289,7 +200,7 @@ namespace QmsCore.Model
                 entity.Property(e => e.TitleTemplate)
                     .HasMaxLength(100)
                     .IsUnicode(false)
-                    .HasDefaultValueSql("'HRQMS - Corrective Action {0} ({1})'");
+                    .HasDefaultValueSql("HRQMS - Corrective Action {0} ({1})");
 
                 entity.HasOne(d => d.NotificationEventType)
                     .WithMany(p => p.NtfNotificationevent)
@@ -300,10 +211,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<NtfNotificationeventtype>(entity =>
             {
-                entity.HasKey(e => e.NotificationEventTypeId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.NotificationEventTypeId);
 
-                entity.ToTable("ntf_notificationeventtype");
+                entity.ToTable("ntf_notificationeventtype", "aca");
 
                 entity.Property(e => e.NotificationEventTypeId)
                     .HasColumnName("NotificationEventType_Id")
@@ -324,10 +234,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<NtfNotificationuserpreference>(entity =>
             {
-                entity.HasKey(e => e.NotificationUserPreferenceId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.NotificationUserPreferenceId);
 
-                entity.ToTable("ntf_notificationuserpreference");
+                entity.ToTable("ntf_notificationuserpreference", "aca");
 
                 entity.HasIndex(e => e.NotificationEventId)
                     .HasName("ntf_NotificationUserPreference_notificationEvent_fk");
@@ -339,11 +248,13 @@ namespace QmsCore.Model
                     .HasColumnName("NotificationUserPreference_Id")
                     .HasColumnType("int(10)");
 
-                entity.Property(e => e.CanBeTurnedOffByUser).HasColumnType("tinyint(1)");
+                entity.Property(e => e.CanBeTurnedOffByUser)
+                    .HasColumnType("tinyint(1)")
+                    .HasDefaultValueSql("0");
 
                 entity.Property(e => e.MessageDeliveryIsOn)
                     .HasColumnType("tinyint(1)")
-                    .HasDefaultValueSql("'1'");
+                    .HasDefaultValueSql("1");
 
                 entity.Property(e => e.NotificationEventId)
                     .HasColumnName("NotificationEvent_Id")
@@ -366,7 +277,7 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<QmsCorrectiveactionErrortype>(entity =>
             {
-                entity.ToTable("qms_correctiveaction_errortype");
+                entity.ToTable("qms_correctiveaction_errortype", "aca");
 
                 entity.HasIndex(e => e.CorrectiveActionId)
                     .HasName("qms_correctiveaction_car_fk");
@@ -393,7 +304,7 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<QmsCorrectiveactionrequest>(entity =>
             {
-                entity.ToTable("qms_correctiveactionrequest");
+                entity.ToTable("qms_correctiveactionrequest", "aca");
 
                 entity.HasIndex(e => e.ActionRequestTypeId)
                     .HasName("qms_correctiveaction_requestype_fk");
@@ -432,21 +343,9 @@ namespace QmsCore.Model
 
                 entity.Property(e => e.AssignedToUserId).HasColumnType("int(10) unsigned");
 
-                entity.Property(e => e.Assignedat)
-                    .HasColumnName("assignedat")
-                    .HasColumnType("date");
-
                 entity.Property(e => e.CreatedAtOrgId).HasColumnType("int(10) unsigned");
 
                 entity.Property(e => e.CreatedByUserId).HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.Createdat)
-                    .HasColumnName("createdat")
-                    .HasColumnType("date");
-
-                entity.Property(e => e.Deletedat)
-                    .HasColumnName("deletedat")
-                    .HasColumnType("date");
 
                 entity.Property(e => e.Details)
                     .HasMaxLength(2000)
@@ -462,9 +361,8 @@ namespace QmsCore.Model
                     .IsUnicode(false);
 
                 entity.Property(e => e.IsPaymentMismatch)
-                    .HasMaxLength(1)
-                    .IsFixedLength()
-                    .HasDefaultValueSql("'N'");
+                    .HasColumnType("char(1)")
+                    .HasDefaultValueSql("N");
 
                 entity.Property(e => e.NatureOfAction)
                     .HasMaxLength(3)
@@ -474,23 +372,13 @@ namespace QmsCore.Model
                     .HasColumnName("PAREffectiveDate")
                     .HasColumnType("date");
 
-                entity.Property(e => e.Resolvedat)
-                    .HasColumnName("resolvedat")
-                    .HasColumnType("date");
-
-                entity.Property(e => e.RowVersion).HasColumnType("tinyint(2)");
+                entity.Property(e => e.RowVersion)
+                    .HasColumnType("tinyint(2)")
+                    .HasDefaultValueSql("0");
 
                 entity.Property(e => e.StatusId)
                     .HasColumnType("int(10) unsigned")
-                    .HasDefaultValueSql("'1'");
-
-                entity.Property(e => e.Submittedat)
-                    .HasColumnName("submittedat")
-                    .HasColumnType("date");
-
-                entity.Property(e => e.Updatedat)
-                    .HasColumnName("updatedat")
-                    .HasColumnType("date");
+                    .HasDefaultValueSql("1");
 
                 entity.HasOne(d => d.ActionRequestType)
                     .WithMany(p => p.QmsCorrectiveactionrequest)
@@ -545,7 +433,7 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<QmsCorrectiveactiontype>(entity =>
             {
-                entity.ToTable("qms_correctiveactiontype");
+                entity.ToTable("qms_correctiveactiontype", "aca");
 
                 entity.Property(e => e.Id).HasColumnType("int(10)");
 
@@ -565,48 +453,11 @@ namespace QmsCore.Model
                 entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
             });
 
-            modelBuilder.Entity<QmsDataItem>(entity =>
-            {
-                entity.HasKey(e => e.DataItemId)
-                    .HasName("PRIMARY");
-
-                entity.ToTable("qms_data_item");
-
-                entity.Property(e => e.DataItemId)
-                    .HasColumnName("data_item_Id")
-                    .HasColumnType("int(10)");
-
-                entity.Property(e => e.CreatedAt).HasColumnName("created_at");
-
-                entity.Property(e => e.DataItemCategory)
-                    .IsRequired()
-                    .HasColumnName("data_item_category")
-                    .HasMaxLength(25)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.DataItemName)
-                    .IsRequired()
-                    .HasColumnName("data_item_name")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.DeletedAt).HasColumnName("deleted_at");
-
-                entity.Property(e => e.SystemName)
-                    .IsRequired()
-                    .HasColumnName("system_name")
-                    .HasMaxLength(25)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
-            });
-
             modelBuilder.Entity<QmsDataerror>(entity =>
             {
-                entity.HasKey(e => e.DataErrorId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.DataErrorId);
 
-                entity.ToTable("qms_dataerror");
+                entity.ToTable("qms_dataerror", "aca");
 
                 entity.HasIndex(e => e.AssignedByUserId)
                     .HasName("qms_DataError_AssignedByUser_fk");
@@ -642,9 +493,7 @@ namespace QmsCore.Model
                     .HasColumnName("DataError_Id")
                     .HasColumnType("int(10)");
 
-                entity.Property(e => e.AssignedAt)
-                    .HasColumnName("assigned_at")
-                    .HasColumnType("date");
+                entity.Property(e => e.AssignedAt).HasColumnName("Assigned_at");
 
                 entity.Property(e => e.AssignedByUserId).HasColumnType("int(10) unsigned");
 
@@ -658,17 +507,15 @@ namespace QmsCore.Model
                     .HasColumnName("correctiveActionId")
                     .HasColumnType("int(10)");
 
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnName("created_at")
-                    .HasColumnType("date");
+                entity.Property(e => e.CreatedAt).HasColumnName("created_at");
 
                 entity.Property(e => e.CreatedByOrgId)
                     .HasColumnType("int(10) unsigned")
-                    .HasDefaultValueSql("'1'");
+                    .HasDefaultValueSql("1");
 
                 entity.Property(e => e.CreatedByUserId)
                     .HasColumnType("int(10) unsigned")
-                    .HasDefaultValueSql("'0'");
+                    .HasDefaultValueSql("0");
 
                 entity.Property(e => e.DataErrorKey)
                     .IsRequired()
@@ -676,9 +523,7 @@ namespace QmsCore.Model
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.DeletedAt)
-                    .HasColumnName("deleted_at")
-                    .HasColumnType("date");
+                entity.Property(e => e.DeletedAt).HasColumnName("deleted_at");
 
                 entity.Property(e => e.Details)
                     .HasMaxLength(4000)
@@ -700,27 +545,23 @@ namespace QmsCore.Model
                     .HasMaxLength(11)
                     .IsUnicode(false);
 
-                entity.Property(e => e.QmsErrorMessageText).HasColumnName("qms_error_message_text");
+                entity.Property(e => e.QmsErrorMessageText)
+                    .HasColumnName("qms_error_message_text")
+                    .IsUnicode(false);
 
-                entity.Property(e => e.ResolvedAt)
-                    .HasColumnName("resolved_at")
-                    .HasColumnType("date");
+                entity.Property(e => e.ResolvedAt).HasColumnName("resolved_at");
 
                 entity.Property(e => e.RowVersion)
                     .HasColumnType("tinyint(2)")
-                    .HasDefaultValueSql("'1'");
+                    .HasDefaultValueSql("1");
 
                 entity.Property(e => e.StatusId)
                     .HasColumnType("int(10) unsigned")
-                    .HasDefaultValueSql("'1'");
+                    .HasDefaultValueSql("1");
 
-                entity.Property(e => e.SubmittedAt)
-                    .HasColumnName("submitted_at")
-                    .HasColumnType("date");
+                entity.Property(e => e.SubmittedAt).HasColumnName("submitted_at");
 
-                entity.Property(e => e.UpdatedAt)
-                    .HasColumnName("updated_at")
-                    .HasColumnType("date");
+                entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
 
                 entity.HasOne(d => d.AssignedByUser)
                     .WithMany(p => p.QmsDataerrorAssignedByUser)
@@ -776,10 +617,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<QmsDataerrortype>(entity =>
             {
-                entity.HasKey(e => e.DataRoutingTypeId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.DataRoutingTypeId);
 
-                entity.ToTable("qms_dataerrortype");
+                entity.ToTable("qms_dataerrortype", "aca");
 
                 entity.Property(e => e.DataRoutingTypeId)
                     .HasColumnName("dataRoutingType_Id")
@@ -804,129 +644,59 @@ namespace QmsCore.Model
                 entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
             });
 
-            modelBuilder.Entity<QmsDatametricsforerrortype>(entity =>
+            modelBuilder.Entity<QmsDataItem>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.DataItemId);
 
-                entity.ToView("qms_datametricsforerrortype");
+                entity.ToTable("qms_data_item", "aca");
 
-                entity.Property(e => e.Count).HasColumnType("bigint(21)");
+                entity.Property(e => e.DataItemId)
+                    .HasColumnName("data_item_Id")
+                    .HasColumnType("int(10)")
+                    .ValueGeneratedNever();
 
-                entity.Property(e => e.ErrorType)
+                entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+
+                entity.Property(e => e.DataItemCategory)
                     .IsRequired()
-                    .HasMaxLength(30)
+                    .HasColumnName("data_item_category")
+                    .HasMaxLength(25)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Org)
+                entity.Property(e => e.DataItemName)
                     .IsRequired()
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<QmsDatametricsrecordslist>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("qms_datametricsrecordslist");
-
-                entity.Property(e => e.AssignedTo)
-                    .HasColumnName("Assigned To")
+                    .HasColumnName("data_item_name")
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Closed)
-                    .HasMaxLength(7)
-                    .IsUnicode(false);
+                entity.Property(e => e.DeletedAt).HasColumnName("deleted_at");
 
-                entity.Property(e => e.Created).HasColumnType("date");
-
-                entity.Property(e => e.CreatedAt)
+                entity.Property(e => e.SystemName)
                     .IsRequired()
-                    .HasColumnName("Created At")
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("''");
-
-                entity.Property(e => e.CurrentStatus)
-                    .IsRequired()
-                    .HasColumnName("Current Status")
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("''");
-
-                entity.Property(e => e.DaysAtPprm)
-                    .HasColumnName("Days at PPRM")
-                    .HasColumnType("bigint(20)");
-
-                entity.Property(e => e.DaysOpen)
-                    .HasColumnName("Days Open")
-                    .HasColumnType("bigint(20)");
-
-                entity.Property(e => e.Emplid)
-                    .IsRequired()
-                    .HasColumnName("EMPLID")
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("''");
-
-                entity.Property(e => e.EmployeeName)
-                    .HasColumnName("Employee Name")
-                    .HasMaxLength(61)
+                    .HasColumnName("system_name")
+                    .HasMaxLength(25)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Id).HasColumnType("int(11)");
-
-                entity.Property(e => e.LastDateToPprm).HasColumnName("Last Date to PPRM");
-
-                entity.Property(e => e.Noa)
-                    .HasColumnName("NOA")
-                    .HasMaxLength(3)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.OfficeSymbol)
-                    .HasColumnName("Office Symbol")
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.PayImpacting)
-                    .HasColumnName("Pay Impacting")
-                    .HasMaxLength(1)
-                    .IsFixedLength();
-
-                entity.Property(e => e.Poi)
-                    .HasColumnName("POI")
-                    .HasMaxLength(4)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Resolver)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ReturnedCount)
-                    .HasColumnName("Returned Count")
-                    .HasColumnType("bigint(21)")
-                    .HasDefaultValueSql("'0'");
-
-                entity.Property(e => e.Submitter)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("''");
+                entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
             });
 
             modelBuilder.Entity<QmsEmployee>(entity =>
             {
-                entity.HasKey(e => e.EmplId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.EmplId);
 
-                entity.ToTable("qms_employee");
+                entity.ToTable("qms_employee", "aca");
 
                 entity.HasIndex(e => e.ManagerId)
                     .HasName("idx_qms_employee_ManagerId");
 
+                entity.HasIndex(e => e.UserKey)
+                    .HasName("UserKey_UNIQUE")
+                    .IsUnique();
+
                 entity.Property(e => e.EmplId)
                     .HasMaxLength(10)
-                    .IsUnicode(false);
+                    .IsUnicode(false)
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.AgencySubElement)
                     .HasMaxLength(5)
@@ -972,15 +742,14 @@ namespace QmsCore.Model
                     .IsRequired()
                     .HasMaxLength(128)
                     .IsUnicode(false)
-                    .HasDefaultValueSql("'--'");
+                    .HasDefaultValueSql("--");
             });
 
             modelBuilder.Entity<QmsErrorroutingtype>(entity =>
             {
-                entity.HasKey(e => e.ErrorRoutingTypeId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.ErrorRoutingTypeId);
 
-                entity.ToTable("qms_errorroutingtype");
+                entity.ToTable("qms_errorroutingtype", "aca");
 
                 entity.Property(e => e.ErrorRoutingTypeId)
                     .HasColumnName("errorRoutingType_Id")
@@ -1007,7 +776,7 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<QmsErrortype>(entity =>
             {
-                entity.ToTable("qms_errortype");
+                entity.ToTable("qms_errortype", "aca");
 
                 entity.Property(e => e.Id).HasColumnType("int(10)");
 
@@ -1027,15 +796,14 @@ namespace QmsCore.Model
                     .HasColumnName("RoutesToBR")
                     .HasMaxLength(1)
                     .IsUnicode(false)
-                    .HasDefaultValueSql("'N'");
+                    .HasDefaultValueSql("N");
             });
 
             modelBuilder.Entity<QmsKnowledgebase>(entity =>
             {
-                entity.HasKey(e => e.ItemId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.ItemId);
 
-                entity.ToTable("qms_knowledgebase");
+                entity.ToTable("qms_knowledgebase", "aca");
 
                 entity.Property(e => e.ItemId)
                     .HasColumnName("ItemID")
@@ -1085,10 +853,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<QmsMasterErrorList>(entity =>
             {
-                entity.HasKey(e => e.ErrorListId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.ErrorListId);
 
-                entity.ToTable("qms_master_error_list");
+                entity.ToTable("qms_master_error_list", "aca");
 
                 entity.HasIndex(e => e.DataItemId)
                     .HasName("qms_error_loader_master_DataItem_fk");
@@ -1101,7 +868,8 @@ namespace QmsCore.Model
 
                 entity.Property(e => e.ErrorListId)
                     .HasColumnName("error_list_id")
-                    .HasColumnType("int(10)");
+                    .HasColumnType("int(10)")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedAt).HasColumnName("created_at");
 
@@ -1112,31 +880,30 @@ namespace QmsCore.Model
                 entity.Property(e => e.DataRoutingTypeId)
                     .HasColumnName("dataRoutingTypeId")
                     .HasColumnType("int(11)")
-                    .HasDefaultValueSql("'1'");
+                    .HasDefaultValueSql("1");
 
                 entity.Property(e => e.DeletedAt).HasColumnName("deleted_at");
 
                 entity.Property(e => e.ErrorMessageText)
                     .IsRequired()
-                    .HasColumnName("error_message_text");
+                    .HasColumnName("error_message_text")
+                    .IsUnicode(false);
 
                 entity.Property(e => e.ErrorRoutingTypeId)
                     .HasColumnName("errorRoutingTypeId")
                     .HasColumnType("int(11)")
-                    .HasDefaultValueSql("'1'");
+                    .HasDefaultValueSql("1");
 
                 entity.Property(e => e.HrdwDataLoadEnabled)
                     .IsRequired()
                     .HasColumnName("hrdw_data_load_enabled")
-                    .HasMaxLength(1)
-                    .IsFixedLength();
+                    .HasColumnType("char(1)");
 
                 entity.Property(e => e.QmsDataLoadEnabled)
                     .IsRequired()
                     .HasColumnName("qms_data_load_enabled")
-                    .HasMaxLength(1)
-                    .IsFixedLength()
-                    .HasDefaultValueSql("'N'");
+                    .HasColumnType("char(1)")
+                    .HasDefaultValueSql("Y");
 
                 entity.Property(e => e.QmsErrorCode)
                     .IsRequired()
@@ -1164,15 +931,15 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<QmsNatureofaction>(entity =>
             {
-                entity.HasKey(e => e.Noacode)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.Noacode);
 
-                entity.ToTable("qms_natureofaction");
+                entity.ToTable("qms_natureofaction", "aca");
 
                 entity.Property(e => e.Noacode)
                     .HasColumnName("NOACode")
                     .HasMaxLength(3)
-                    .IsUnicode(false);
+                    .IsUnicode(false)
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.DeletedAt).HasColumnName("deleted_at");
 
@@ -1185,7 +952,7 @@ namespace QmsCore.Model
                     .HasColumnName("RoutesToBR")
                     .HasMaxLength(1)
                     .IsUnicode(false)
-                    .HasDefaultValueSql("'N'");
+                    .HasDefaultValueSql("N");
 
                 entity.Property(e => e.ShortDescription)
                     .HasMaxLength(45)
@@ -1200,10 +967,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<QmsOrgStatusTrans>(entity =>
             {
-                entity.HasKey(e => e.OrgStatusTransId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.OrgStatusTransId);
 
-                entity.ToTable("qms_org_status_trans");
+                entity.ToTable("qms_org_status_trans", "aca");
 
                 entity.HasIndex(e => e.ToOrgtypeId)
                     .HasName("qms_org_status_trans_fk2");
@@ -1244,7 +1010,7 @@ namespace QmsCore.Model
                     .HasColumnName("WorkItemType_Code")
                     .HasMaxLength(50)
                     .IsUnicode(false)
-                    .HasDefaultValueSql("'CorrectiveActionRequest'");
+                    .HasDefaultValueSql("CorrectiveActionRequest");
 
                 entity.HasOne(d => d.StatusTrans)
                     .WithMany(p => p.QmsOrgStatusTrans)
@@ -1267,10 +1033,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<QmsOrgtype>(entity =>
             {
-                entity.HasKey(e => e.OrgtypeId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.OrgtypeId);
 
-                entity.ToTable("qms_orgtype");
+                entity.ToTable("qms_orgtype", "aca");
 
                 entity.HasIndex(e => e.OrgtypeCode)
                     .HasName("qms_orgtype_uk2")
@@ -1307,17 +1072,17 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<QmsPersonnelOfficeIdentifier>(entity =>
             {
-                entity.HasKey(e => e.PoiId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.PoiId);
 
-                entity.ToTable("qms_personnel_office_identifier");
+                entity.ToTable("qms_personnel_office_identifier", "aca");
 
                 entity.HasIndex(e => e.OrgId)
                     .HasName("qms_poi_org_fk");
 
                 entity.Property(e => e.PoiId)
                     .HasColumnName("poi_Id")
-                    .HasColumnType("int(4)");
+                    .HasColumnType("int(4)")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.CreatedAt).HasColumnName("created_at");
 
@@ -1347,10 +1112,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<QmsStatus>(entity =>
             {
-                entity.HasKey(e => e.StatusId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.StatusId);
 
-                entity.ToTable("qms_status");
+                entity.ToTable("qms_status", "aca");
 
                 entity.HasIndex(e => e.StatusCode)
                     .HasName("qms_status_uk1")
@@ -1391,10 +1155,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<QmsStatusTrans>(entity =>
             {
-                entity.HasKey(e => e.StatusTransId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.StatusTransId);
 
-                entity.ToTable("qms_status_trans");
+                entity.ToTable("qms_status_trans", "aca");
 
                 entity.HasIndex(e => e.ToStatusId)
                     .HasName("qms_status_trans_fk2");
@@ -1450,7 +1213,7 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<QmsWorkitemcomment>(entity =>
             {
-                entity.ToTable("qms_workitemcomment");
+                entity.ToTable("qms_workitemcomment", "aca");
 
                 entity.HasIndex(e => e.AuthorId)
                     .HasName("qms_reconworkitemcomment_user_fk");
@@ -1497,7 +1260,7 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<QmsWorkitemfile>(entity =>
             {
-                entity.ToTable("qms_workitemfile");
+                entity.ToTable("qms_workitemfile", "aca");
 
                 entity.HasIndex(e => e.UploadedByUserId)
                     .HasName("qms_workitemfile_uploader_fk");
@@ -1547,7 +1310,7 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<QmsWorkitemhistory>(entity =>
             {
-                entity.ToTable("qms_workitemhistory");
+                entity.ToTable("qms_workitemhistory", "aca");
 
                 entity.HasIndex(e => e.ActionTakenByUserId)
                     .HasName("qms_WorkItemHistory_secuser_fk");
@@ -1626,10 +1389,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<QmsWorkitemtype>(entity =>
             {
-                entity.HasKey(e => e.WorkItemTypeId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.WorkItemTypeId);
 
-                entity.ToTable("qms_workitemtype");
+                entity.ToTable("qms_workitemtype", "aca");
 
                 entity.HasIndex(e => e.WorkItemTypeCode)
                     .HasName("WorkItemType_Code")
@@ -1664,7 +1426,7 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<QmsWorkitemviewlog>(entity =>
             {
-                entity.ToTable("qms_workitemviewlog");
+                entity.ToTable("qms_workitemviewlog", "aca");
 
                 entity.HasIndex(e => e.WorkItemTypeCode)
                     .HasName("qms_workitemviewlog_workItemType_fk");
@@ -1696,10 +1458,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<SecOrg>(entity =>
             {
-                entity.HasKey(e => e.OrgId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.OrgId);
 
-                entity.ToTable("sec_org");
+                entity.ToTable("sec_org", "aca");
 
                 entity.HasIndex(e => e.OrgCode)
                     .HasName("sec_org_uk1")
@@ -1753,10 +1514,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<SecPermission>(entity =>
             {
-                entity.HasKey(e => e.PermissionId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.PermissionId);
 
-                entity.ToTable("sec_permission");
+                entity.ToTable("sec_permission", "aca");
 
                 entity.HasIndex(e => e.PermissionCode)
                     .HasName("sec_permission_uk1")
@@ -1793,10 +1553,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<SecRole>(entity =>
             {
-                entity.HasKey(e => e.RoleId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.RoleId);
 
-                entity.ToTable("sec_role");
+                entity.ToTable("sec_role", "aca");
 
                 entity.HasIndex(e => e.RoleCode)
                     .HasName("sec_role_uk1")
@@ -1833,10 +1592,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<SecRolePermission>(entity =>
             {
-                entity.HasKey(e => e.RolePermissionId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.RolePermissionId);
 
-                entity.ToTable("sec_role_permission");
+                entity.ToTable("sec_role_permission", "aca");
 
                 entity.HasIndex(e => e.PermissionId)
                     .HasName("sec_role_permission_fk2");
@@ -1880,10 +1638,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<SecSecurityitemtype>(entity =>
             {
-                entity.HasKey(e => e.SecurityItemTypeId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.SecurityItemTypeId);
 
-                entity.ToTable("sec_securityitemtype");
+                entity.ToTable("sec_securityitemtype", "aca");
 
                 entity.Property(e => e.SecurityItemTypeId)
                     .HasColumnName("SecurityItemType_ID")
@@ -1908,10 +1665,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<SecSecuritylog>(entity =>
             {
-                entity.HasKey(e => e.SecurityLogId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.SecurityLogId);
 
-                entity.ToTable("sec_securitylog");
+                entity.ToTable("sec_securitylog", "aca");
 
                 entity.HasIndex(e => e.ActionTakenByUserId)
                     .HasName("sec_SecurityLog_User_fk");
@@ -1955,10 +1711,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<SecSecuritylogtype>(entity =>
             {
-                entity.HasKey(e => e.SecurityLogTypeId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.SecurityLogTypeId);
 
-                entity.ToTable("sec_securitylogtype");
+                entity.ToTable("sec_securitylogtype", "aca");
 
                 entity.HasIndex(e => e.SecurityItemTypeId)
                     .HasName("qms_SecurityLogType_SecurityItemType_fk");
@@ -2001,10 +1756,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<SecUser>(entity =>
             {
-                entity.HasKey(e => e.UserId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.UserId);
 
-                entity.ToTable("sec_user");
+                entity.ToTable("sec_user", "aca");
 
                 entity.HasIndex(e => e.EmailAddress)
                     .HasName("sec_user_uk1")
@@ -2057,12 +1811,32 @@ namespace QmsCore.Model
                     .HasConstraintName("sec_user_org_fk");
             });
 
+            modelBuilder.Entity<SecUserlogin>(entity =>
+            {
+                entity.ToTable("sec_userlogin", "aca");
+
+                entity.Property(e => e.Id).HasColumnType("int(11)");
+
+                entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+
+                entity.Property(e => e.Emailaddress)
+                    .IsRequired()
+                    .HasColumnName("emailaddress")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LoginEventType)
+                    .IsRequired()
+                    .HasColumnName("login_event_type")
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<SecUserRole>(entity =>
             {
-                entity.HasKey(e => e.UserOrgRoleId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.UserOrgRoleId);
 
-                entity.ToTable("sec_user_role");
+                entity.ToTable("sec_user_role", "aca");
 
                 entity.HasIndex(e => e.RoleId)
                     .HasName("sec_user_org_role_fk3");
@@ -2104,33 +1878,11 @@ namespace QmsCore.Model
                     .HasConstraintName("sec_user_org_role_fk1");
             });
 
-            modelBuilder.Entity<SecUserlogin>(entity =>
-            {
-                entity.ToTable("sec_userlogin");
-
-                entity.Property(e => e.Id).HasColumnType("int(11)");
-
-                entity.Property(e => e.CreatedAt).HasColumnName("created_at");
-
-                entity.Property(e => e.Emailaddress)
-                    .IsRequired()
-                    .HasColumnName("emailaddress")
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.LoginEventType)
-                    .IsRequired()
-                    .HasColumnName("login_event_type")
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
-            });
-
             modelBuilder.Entity<SysMenuitem>(entity =>
             {
-                entity.HasKey(e => e.MenuitemId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.MenuitemId);
 
-                entity.ToTable("sys_menuitem");
+                entity.ToTable("sys_menuitem", "aca");
 
                 entity.HasIndex(e => e.ModuleId)
                     .HasName("qms_menuitem_module_fk");
@@ -2216,10 +1968,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<SysModule>(entity =>
             {
-                entity.HasKey(e => e.ModuleId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.ModuleId);
 
-                entity.ToTable("sys_module");
+                entity.ToTable("sys_module", "aca");
 
                 entity.Property(e => e.ModuleId)
                     .HasColumnName("module_id")
@@ -2269,10 +2020,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<SysModuleRole>(entity =>
             {
-                entity.HasKey(e => e.ModuleRoleId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.ModuleRoleId);
 
-                entity.ToTable("sys_module_role");
+                entity.ToTable("sys_module_role", "aca");
 
                 entity.HasIndex(e => e.ModuleId)
                     .HasName("qms_module_moduleid_fk");
@@ -2313,10 +2063,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<SysSetting>(entity =>
             {
-                entity.HasKey(e => e.SettingId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.SettingId);
 
-                entity.ToTable("sys_setting");
+                entity.ToTable("sys_setting", "aca");
 
                 entity.HasIndex(e => new { e.SettingTypeId, e.Environment })
                     .HasName("sys_setting_environment_uc")
@@ -2344,10 +2093,9 @@ namespace QmsCore.Model
 
             modelBuilder.Entity<SysSettingtype>(entity =>
             {
-                entity.HasKey(e => e.SettingTypeId)
-                    .HasName("PRIMARY");
+                entity.HasKey(e => e.SettingTypeId);
 
-                entity.ToTable("sys_settingtype");
+                entity.ToTable("sys_settingtype", "aca");
 
                 entity.Property(e => e.SettingTypeId).HasColumnType("int(10)");
 
@@ -2367,325 +2115,6 @@ namespace QmsCore.Model
                     .HasMaxLength(200)
                     .IsUnicode(false);
             });
-
-            modelBuilder.Entity<ZTestQmsCorrectiveaction>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("z_test_qms_correctiveaction");
-
-                entity.Property(e => e.ActionRequestTypeId).HasColumnType("int(10)");
-
-                entity.Property(e => e.AssigndByName)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.AssignedAt).HasColumnType("date");
-
-                entity.Property(e => e.AssignedByUserId).HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.AssignedToName)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.AssignedToOrg)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.AssignedToOrgId).HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.AssignedToUserId).HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.CreatedAt).HasColumnType("date");
-
-                entity.Property(e => e.CreatedAtOrgId).HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.CreatedAtOrgName)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.CreatedByName)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.CreatedByUserId).HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.DeletedAt).HasColumnType("date");
-
-                entity.Property(e => e.Details)
-                    .HasMaxLength(2000)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.EffectiveDateOfPar)
-                    .HasColumnName("EffectiveDateOfPAR")
-                    .HasColumnType("date");
-
-                entity.Property(e => e.EmplId)
-                    .IsRequired()
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.EmployeeName)
-                    .HasMaxLength(61)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Id).HasColumnType("int(11)");
-
-                entity.Property(e => e.IsPaymentMismatch)
-                    .HasMaxLength(1)
-                    .IsFixedLength()
-                    .HasDefaultValueSql("'N'");
-
-                entity.Property(e => e.NatureOfAction)
-                    .HasMaxLength(3)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.PareffectiveDate)
-                    .HasColumnName("PAREffectiveDate")
-                    .HasColumnType("date");
-
-                entity.Property(e => e.ResolvedAt).HasColumnType("date");
-
-                entity.Property(e => e.StatusId)
-                    .HasColumnType("int(10) unsigned")
-                    .HasDefaultValueSql("'1'");
-
-                entity.Property(e => e.StatusLabel)
-                    .HasColumnName("status_label")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.SubmittedAt).HasColumnType("date");
-
-                entity.Property(e => e.UpdatedAt).HasColumnType("date");
-            });
-
-            modelBuilder.Entity<ZTestQmsCorrectiveactionerrors>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("z_test_qms_correctiveactionerrors");
-
-                entity.Property(e => e.CorrectiveActionId).HasColumnType("int(10)");
-
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ErrorTypeId).HasColumnType("int(10)");
-
-                entity.Property(e => e.Id).HasColumnType("int(10)");
-            });
-
-            modelBuilder.Entity<ZTestQmsRolePermissionMatrix>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("z_test_qms_role_permission_matrix");
-
-                entity.Property(e => e.PermissionDeletedAt).HasColumnName("permission_deleted_at");
-
-                entity.Property(e => e.PermissionId)
-                    .HasColumnName("permission_id")
-                    .HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.PermissionLabel)
-                    .IsRequired()
-                    .HasColumnName("permission_label")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.RoleDeletedAt).HasColumnName("role_deleted_at");
-
-                entity.Property(e => e.RoleId)
-                    .HasColumnName("role_id")
-                    .HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.RoleLabel)
-                    .IsRequired()
-                    .HasColumnName("role_label")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.RolePermissionId)
-                    .HasColumnName("role_permission_id")
-                    .HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.RolepermDeletedAt).HasColumnName("roleperm_deleted_at");
-            });
-
-            modelBuilder.Entity<ZTestQmsStatusTransitionMatrix>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("z_test_qms_status_transition_matrix");
-
-                entity.Property(e => e.CreatedAt)
-                    .HasColumnName("created_at")
-                    .HasDefaultValueSql("'0000-00-00 00:00:00'");
-
-                entity.Property(e => e.DeletedAt).HasColumnName("deleted_at");
-
-                entity.Property(e => e.FromOrg)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.FromOrgId)
-                    .HasColumnName("from_org_id")
-                    .HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.FromStatus)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.FromStatusId).HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.OrgStatusTransId)
-                    .HasColumnName("org_status_trans_id")
-                    .HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.StatusTransId)
-                    .HasColumnName("status_trans_id")
-                    .HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.ToOrgType)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ToOrgtypeId)
-                    .HasColumnName("to_orgtype_id")
-                    .HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.ToStatus)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ToStatusId).HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
-
-                entity.Property(e => e.WorkItemType)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("'CorrectiveActionRequest'");
-            });
-
-            modelBuilder.Entity<ZTestQmsWorkitemcomment>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("z_test_qms_workitemcomment");
-
-                entity.Property(e => e.AuthorId).HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.CreatedAt).HasColumnName("createdAt");
-
-                entity.Property(e => e.DeletedAt).HasColumnName("deletedAt");
-
-                entity.Property(e => e.DisplayName)
-                    .IsRequired()
-                    .HasColumnName("display_name")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Id).HasColumnType("int(11)");
-
-                entity.Property(e => e.Message)
-                    .HasMaxLength(1000)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UpdatedAt).HasColumnName("updatedAt");
-
-                entity.Property(e => e.WorkItemId).HasColumnType("int(11)");
-
-                entity.Property(e => e.WorkItemType)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<ZTestQmsWorkitemhistory>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("z_test_qms_workitemhistory");
-
-                entity.Property(e => e.ActionDescription)
-                    .HasMaxLength(1000)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ActionTakenBy)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.PreviousAssignedOrganization)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.PreviousStatus)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.PreviouslyAssignedBy)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.PreviouslyAssignedTo)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Workitemid)
-                    .HasColumnName("workitemid")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Workitemtype)
-                    .HasColumnName("workitemtype")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<ZTestQmsWorkitemviewlog>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("z_test_qms_workitemviewlog");
-
-                entity.Property(e => e.Createdat).HasColumnName("createdat");
-
-                entity.Property(e => e.DisplayName)
-                    .IsRequired()
-                    .HasColumnName("display_name")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Id).HasColumnType("int(10)");
-
-                entity.Property(e => e.Userid)
-                    .HasColumnName("userid")
-                    .HasColumnType("int(10)");
-
-                entity.Property(e => e.Workitemid)
-                    .HasColumnName("workitemid")
-                    .HasColumnType("int(10) unsigned");
-
-                entity.Property(e => e.Workitemtype)
-                    .HasColumnName("workitemtype")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-            });
-
-            OnModelCreatingPartial(modelBuilder);
         }
-
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

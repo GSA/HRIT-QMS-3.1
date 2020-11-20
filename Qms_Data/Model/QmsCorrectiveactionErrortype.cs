@@ -9,7 +9,7 @@ namespace QmsCore.Model
         public int CorrectiveActionId { get; set; }
         public int ErrorTypeId { get; set; }
 
-        public virtual QmsCorrectiveactionrequest CorrectiveAction { get; set; }
-        public virtual QmsErrortype ErrorType { get; set; }
+        public QmsCorrectiveactionrequest CorrectiveAction { get; set; }
+        public QmsErrortype ErrorType { get; set; }
     }
 }

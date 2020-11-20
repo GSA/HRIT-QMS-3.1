@@ -17,7 +17,7 @@ namespace QmsCore.Model
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
-        public virtual SysMenuitem SysMenuitem { get; set; }
-        public virtual ICollection<SecRolePermission> SecRolePermission { get; set; }
+        public SysMenuitem SysMenuitem { get; set; }
+        public ICollection<SecRolePermission> SecRolePermission { get; set; }
     }
 }

@@ -175,18 +175,20 @@ namespace QmsCore.Services
 
         public void ReactivateUser(int UserId, User submitter)
         {
+            SecUser user = repository.RetrieveByUserId(UserId);
             User reactivatedUser = RetrieveByUserId(UserId);
-            securityLogService.EntityUpdatedOrCreated(SecurityLogTypeEnum.ROLE_REACTIVATED,reactivatedUser,submitter);            
-            reactivatedUser.DeletedAt = null;
-            repository.Update(reactivatedUser.SecUser());
+            user.DeletedAt = null;
+            securityLogService.EntityUpdatedOrCreated(SecurityLogTypeEnum.USER_REACTIVATED, reactivatedUser, submitter);
+            repository.context.SaveChanges();
         }
 
-        public void DeactivateUser(int userId, User submitter)
+        public void DeactivateUser(int UserId, User submitter)
         {
-           User deactivatedUser = RetrieveByUserId(userId);
-           securityLogService.EntityUpdatedOrCreated(SecurityLogTypeEnum.USER_DEACTIVATED,deactivatedUser,submitter);
-           deactivatedUser.DeletedAt = DateTime.Now;
-           repository.Update(deactivatedUser.SecUser());
+            SecUser user = repository.RetrieveByUserId(UserId);
+            User deactivatedUser = RetrieveByUserId(UserId);
+            user.DeletedAt = DateTime.Now;
+            securityLogService.EntityUpdatedOrCreated(SecurityLogTypeEnum.USER_DEACTIVATED,deactivatedUser,submitter);
+            repository.context.SaveChanges();
         }
 
         private void hyrdateRoles(User updatedUser)

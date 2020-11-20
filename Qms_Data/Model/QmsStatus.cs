@@ -22,10 +22,10 @@ namespace QmsCore.Model
         public DateTime? UpdatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
-        public virtual ICollection<QmsCorrectiveactionrequest> QmsCorrectiveactionrequest { get; set; }
-        public virtual ICollection<QmsDataerror> QmsDataerror { get; set; }
-        public virtual ICollection<QmsStatusTrans> QmsStatusTransFromStatus { get; set; }
-        public virtual ICollection<QmsStatusTrans> QmsStatusTransToStatus { get; set; }
-        public virtual ICollection<QmsWorkitemhistory> QmsWorkitemhistory { get; set; }
+        public ICollection<QmsCorrectiveactionrequest> QmsCorrectiveactionrequest { get; set; }
+        public ICollection<QmsDataerror> QmsDataerror { get; set; }
+        public ICollection<QmsStatusTrans> QmsStatusTransFromStatus { get; set; }
+        public ICollection<QmsStatusTrans> QmsStatusTransToStatus { get; set; }
+        public ICollection<QmsWorkitemhistory> QmsWorkitemhistory { get; set; }
     }
 }

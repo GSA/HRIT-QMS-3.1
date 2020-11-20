@@ -29,11 +29,6 @@ namespace QmsCore.Model
             }
         }
 
-        public DateTime CreatedAt { get; set; }
-        public DateTime? AssignedAt { get; set; }
-        public DateTime? SubmittedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public DateTime? ResolvedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
+
     }
 }

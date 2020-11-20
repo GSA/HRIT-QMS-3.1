@@ -16,6 +16,6 @@ namespace QmsCore.Model
         public DateTime Createdat { get; set; }
         public DateTime? Deletedat { get; set; }
 
-        public virtual ICollection<SysSetting> SysSetting { get; set; }
+        public ICollection<SysSetting> SysSetting { get; set; }
     }
 }

@@ -171,7 +171,7 @@ namespace QmsCore.UIModel
             {
                 SecUserRole secUserRole = new SecUserRole();
                 secUserRole.RoleId = userrole.RoleId;
-                secUserRole.UserId = userrole.UserId;
+                secUserRole.UserId = this.UserId;
                 secUserRole.CreatedAt = DateTime.Now;
                 secUser.SecUserRole.Add(secUserRole);
             }

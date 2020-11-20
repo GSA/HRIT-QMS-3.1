@@ -16,6 +16,6 @@ namespace QmsCore.Model
         public DateTime CreatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
-        public virtual ICollection<NtfNotificationevent> NtfNotificationevent { get; set; }
+        public ICollection<NtfNotificationevent> NtfNotificationevent { get; set; }
     }
 }

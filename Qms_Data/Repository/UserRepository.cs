@@ -8,7 +8,7 @@ namespace QmsCore.Repository
 {
     public class UserRepository : IUserRepository
     {
-        QMSContext context;
+        internal QMSContext context;
         public UserRepository()
         {
             context = new QMSContext();
@@ -92,15 +92,34 @@ namespace QmsCore.Repository
 
         internal void Update(SecUser secUser)
         {
-            SecUser oldUser = RetrieveByUserId(secUser.UserId);
-            purgeRoles(oldUser);
-            foreach(var sur in secUser.SecUserRole)
+            mergeAndClean(secUser);
+            clearContext();
+            context.SecUser.Update(secUser);
+            foreach (var sur in secUser.SecUserRole)
             {
                 context.SecUserRole.Add(sur);
             }
-            update(oldUser,secUser);
+            //update(oldUser, secUser);
             context.SaveChanges();
         }
+
+        private void mergeAndClean(SecUser secUser)
+        {
+            SecUser oldUser = RetrieveByUserId(secUser.UserId);
+            secUser.CreatedAt = oldUser.CreatedAt;
+            secUser.UpdatedAt = DateTime.Now;
+            purgeRoles(oldUser);
+        }
+
+        private void clearContext()
+        {
+            var entries = context.ChangeTracker.Entries();
+            foreach (var entry in entries)
+            {
+                entry.State = EntityState.Detached;
+            }
+        }
+
 
         private void purgeRoles(SecUser user)
         {

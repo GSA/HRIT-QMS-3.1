@@ -19,8 +19,8 @@ namespace QmsCore.Model
         public DateTime CreatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
-        public virtual NtfNotificationevent NotificationEvent { get; set; }
-        public virtual SecUser User { get; set; }
-        public virtual QmsWorkitemtype WorkItemTypeCodeNavigation { get; set; }
+        public NtfNotificationevent NotificationEvent { get; set; }
+        public SecUser User { get; set; }
+        public QmsWorkitemtype WorkItemTypeCodeNavigation { get; set; }
     }
 }
