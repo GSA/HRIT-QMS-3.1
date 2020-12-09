@@ -1,6 +1,6 @@
 -- build reports to store daily error counts for statistical analysis
 
-drop table aca.qms_error_stat;
+drop table if exists aca.qms_error_stat;
 create table aca.qms_error_stat
 (qms_error_stat int(10) not null auto_increment primary key
 ,poid varchar(4) not null

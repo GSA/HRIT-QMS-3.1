@@ -192,76 +192,88 @@ namespace QmsCore.Services
 
         public List<DataErrorListItem> RetrieveAllForUser(User user)
         {
-            string role = "UNKNOWN";
+            bool userIsAnSCSpecialist = UserUtil.UserHasRole(user, ApplicationRoleType.SC_SPECIALIST);
+            bool userIsPPRBSpecialist = UserUtil.UserHasRole(user, ApplicationRoleType.PPRB_SPECIALIST);
+            bool userIsAPPRMSpecialist = UserUtil.UserHasRole(user, ApplicationRoleType.PPRM_SPECIALIST);
 
-            role = user.UserRoles[0].Role.RoleCode;
-
-            switch (role)
+            if (userIsAnSCSpecialist || userIsAPPRMSpecialist || userIsPPRBSpecialist)
             {
-                case ApplicationRoleType.SC_SPECIALIST:
-                case ApplicationRoleType.PPRM_SPECIALIST:
-                case ApplicationRoleType.PPRB_SPECIALIST:
-                    return convertToListItems(RetrieveAllByAssignedToUser(user.UserId));
-                default:
-                    throw new Exception("Role '" + role + "' not found");
+                return convertToListItems(RetrieveAllByAssignedToUser(user.UserId));
             }
+            else
+            {
+                throw new Exception("User does not have specialist role");
+            }
+
         }
 
 
         public List<DataErrorListItem> RetrieveAllForUserArchive(User user)
         {
-            string role = "UNKNOWN";
+            bool userIsAnSCSpecialist = UserUtil.UserHasRole(user, ApplicationRoleType.SC_SPECIALIST);
+            bool userIsPPRBSpecialist = UserUtil.UserHasRole(user, ApplicationRoleType.PPRB_SPECIALIST);
+            bool userIsAPPRMSpecialist = UserUtil.UserHasRole(user, ApplicationRoleType.PPRM_SPECIALIST);
 
-            role = user.UserRoles[0].Role.RoleCode;
-
-            switch (role)
+            if (userIsAnSCSpecialist || userIsAPPRMSpecialist || userIsPPRBSpecialist)
             {
-                case ApplicationRoleType.SC_SPECIALIST:
-                case ApplicationRoleType.PPRM_SPECIALIST:
-                case ApplicationRoleType.PPRB_SPECIALIST:
-                    return convertToListItems(RetrieveAllByAssignedToUserArchive(user.UserId));
-                default:
-                    throw new Exception("Role '" + role + "' not found");
-            }                
+                return convertToListItems(RetrieveAllByAssignedToUserArchive(user.UserId));
+            }
+            else
+            {
+                throw new Exception("User does not have specialist role");
+            }
 
         }        
 
         public List<DataErrorListItem> RetrieveAllByOrganization(User user)
         {
-            string role = "UNKNOWN";
 
-            role = user.UserRoles[0].Role.RoleCode;
+            bool userIsAnSCReviewer = UserUtil.UserHasRole(user, ApplicationRoleType.SC_REVIEWER);
+            bool userIsPPRBReviewer = UserUtil.UserHasRole(user, ApplicationRoleType.PPRB_REVIEWER);
+            bool userIsAPPRMReviewer = UserUtil.UserHasRole(user, ApplicationRoleType.PPRM_REVIEWER);
 
-            switch (role)
+            if (userIsAnSCReviewer)
             {
-                case ApplicationRoleType.SC_REVIEWER:
-                    return convertToListItems(RetrieveAllByCreatedAtOrg(user.OrgId.Value));
-                case ApplicationRoleType.PPRM_REVIEWER:
-                    return convertToListItems(RetrieveAllByAssignedToOrg(user.OrgId.Value));
-                case ApplicationRoleType.PPRB_REVIEWER:
-                    return convertToListItems(RetrieveAllByAssignedToOrCreatedByOrg(user.OrgId.Value));
-                default:
-                    throw new Exception("Role '" + role + "' not found");
-            }                
+                return convertToListItems(RetrieveAllByCreatedAtOrg(user.OrgId.Value));
+            }
+            else if (userIsAPPRMReviewer)
+            {
+                return convertToListItems(RetrieveAllByAssignedToOrg(user.OrgId.Value));
+            }
+            else if (userIsPPRBReviewer)
+            {
+                return convertToListItems(RetrieveAllByAssignedToOrCreatedByOrg(user.OrgId.Value));
+            }
+            else
+            {
+                throw new Exception("User does not have reviewer role");
+            }
 
         }
 
         public List<DataErrorListItem> RetrieveAllByOrganizationArchive(User user)
         {
-            string role = "UNKNOWN";
-            role = user.UserRoles[0].Role.RoleCode;
 
-            switch (role)
+            bool userIsAnSCReviewer = UserUtil.UserHasRole(user, ApplicationRoleType.SC_REVIEWER);
+            bool userIsPPRBReviewer = UserUtil.UserHasRole(user, ApplicationRoleType.PPRB_REVIEWER);
+            bool userIsAPPRMReviewer = UserUtil.UserHasRole(user, ApplicationRoleType.PPRM_REVIEWER);
+
+            if (userIsAnSCReviewer)
             {
-                case ApplicationRoleType.SC_REVIEWER:
-                    return convertToListItems(RetrieveAllByCreatedAtOrgArchive(user.OrgId.Value));
-                case ApplicationRoleType.PPRM_REVIEWER:
-                    return convertToListItems(RetrieveAllByAssignedToOrgArchive(user.OrgId.Value));
-                case ApplicationRoleType.PPRB_REVIEWER:
-                    return convertToListItems(RetrieveAllByAssignedToOrCreatedByOrgArchive(user.OrgId.Value));
-                default:
-                    throw new Exception("Role '" + role + "' not found");
-            }                
+                return convertToListItems(RetrieveAllByCreatedAtOrgArchive(user.OrgId.Value));
+            }
+            else if (userIsAPPRMReviewer)
+            {
+                return convertToListItems(RetrieveAllByAssignedToOrCreatedByOrgArchive(user.OrgId.Value));
+            }
+            else if (userIsPPRBReviewer)
+            {
+                return convertToListItems(RetrieveAllByAssignedToOrgArchive(user.OrgId.Value));
+            }
+            else
+            {
+                throw new Exception("User does not have reviewer role");
+            }
              
         } 
 
