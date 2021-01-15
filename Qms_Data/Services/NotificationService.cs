@@ -87,8 +87,19 @@ namespace QmsCore.Services
             notificationRepository.Update(n);
         }
 
+        internal void closeUnsentActions(int correctiveActionId,string workItemType)
+        {
+            var openNotifications = notificationRepository.RetrieveOpenUnsentNotificationsByWorkItemId(correctiveActionId, workItemType);
+            foreach (var openNotification in openNotifications)
+            {
+                notificationRepository.Delete(openNotification);
+            }
+        }
+
+
         public void Insert(Notification notification)
         {
+            closeUnsentActions(notification.WorkitemId, notification.WorkItemType);
             notificationRepository.Insert(notification.NtfNotification());
         }
 
@@ -125,7 +136,7 @@ namespace QmsCore.Services
         public void SendEmail(string subjectLine, string messageBody)
         {
             MailMessage message = new MailMessage();
-            message.To.Add("lee.trent@gsa.gov");
+            message.To.Add("james.mcconville@gsa.gov");
             message.To.Add("alfred.ortega@gsa.gov");
             message.Subject = subjectLine;
             message.Body = messageBody;

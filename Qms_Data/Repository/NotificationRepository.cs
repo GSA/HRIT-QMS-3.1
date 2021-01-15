@@ -69,6 +69,11 @@ namespace QmsCore.Repository
             return RetrieveNotificationByUserId(userId,onlyRead).Count();
         }
 
+        internal IQueryable<NtfNotification> RetrieveOpenUnsentNotificationsByWorkItemId(int workItemId, string workItemType)
+        {
+            return context.NtfNotification.AsNoTracking().Where(n => n.WorkitemId == workItemId && n.WorkItemTypeCode == workItemType && n.SentAt == null && n.DeletedAt == null);
+        }
+
         internal IQueryable<NtfNotification> RetrieveNotificationByUserId(int userId, bool onlyUnread)
         {
             if(onlyUnread)
@@ -81,6 +86,7 @@ namespace QmsCore.Repository
             }
             
         }
+
 
         internal IQueryable<NtfNotification> RetrieveNotificationForDistribution()
         {

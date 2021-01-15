@@ -20,9 +20,9 @@ namespace QMS_NotificationSender
 
         static int emailsSent = 0;
 
-        static bool shouldSendEventBasedEmails = false;
+        static bool shouldSendEventBasedEmails = true;
 
-        static bool shouldSendTimeBasedEmails = false;
+        static bool shouldSendTimeBasedEmails = true;
 
         static QMSContext context;
         static ReferenceService referenceService;
@@ -48,7 +48,7 @@ namespace QMS_NotificationSender
             try
             {
                 Console.WriteLine(fileDirectory);
-                string env = getEnvironment(args);   
+                string env = getEnvironment(args);
                 logit("Environmemnt is set to " + env); 
                 string configFile = string.Format("qms_appsettings.{0}.json",env);
                 logit(string.Format("Using {0} for configuration",configFile));
@@ -58,63 +58,54 @@ namespace QMS_NotificationSender
                 context = new QMSContext();
                 logit("Context Built");
 
-                User user = new UserService().RetrieveByEmailAddress("alfred.ortega@gsa.gov");
-                Console.WriteLine(string.Format("User: {0} loaded",user.DisplayName));
-                var items = new CorrectiveActionService(context).RetrieveAllForOrganization(user);
-                foreach (var item in items)
+
+                logit("Retrieving Settings");
+                settingsList = retrieveSettings(env);
+                logit("Settings defined");
+                setSettings();
+
+                //used for QMS Dashboard
+                sendQmsDataEmails();
+
+
+                logit("Instantiating Reference Service");
+                referenceService = new ReferenceService(context);
+                logit("Instantiating Corrective Action Service");
+                correctiveActionService = new CorrectiveActionService(context);
+                logit("Instantiating User Service");
+                userService = new UserService(context);
+                logit("Instantiating Notification Service");
+                notificationService = new NotificationService(context);
+                logit("Loading Active Users");
+                Users = userService.RetrieveActiveUsers();
+
+                logit("Should Event Based Emails be sent: " + shouldSendEventBasedEmails.ToString());
+                if (shouldSendEventBasedEmails)
                 {
-                    Console.WriteLine(item.DaysOld);
+                    logit("executeEventBasedEmails");
+                    executeEventBasedEmails();
                 }
+                logit("Check to see if time based emails have been sent for today");
+                EmailLog log = referenceService.RetrieveEmailLogByDate(logDate);
+                if (log.EmailLogId == 0) //emails haven't been sent yet today
+                {
+                    logit("Time based emails have not been sent for today");
+                    sendReviewerNotifications();
+                    sendSpecialistNotifications();
+                    logit("saveNotifications");
+                    saveNotifications();
+                    log.SentDate = logDate;
+                    log.SentAmount = emailsSent;
+                    referenceService.SaveEmailLog(log);
+                }
+                else
+                {
+                    logit("Time based emails have sent for today.");
+                }
+                logit("Write Log");
+                System.IO.File.WriteAllText(Config.Settings.LogDirectory + "EmailLog-" + env + ".txt", stringBuilder.ToString());
 
 
-
-
-                //logit("Retrieving Settings");
-                //settingsList = retrieveSettings(env);
-                //logit("Settings defined");    
-                //setSettings();                    
-
-                //sendQmsDataEmails();
-
-
-                //logit("Instantiating Reference Service");
-                //referenceService = new ReferenceService(context);
-                //logit("Instantiating Corrective Action Service");
-                //correctiveActionService = new CorrectiveActionService(context);
-                //logit("Instantiating User Service");
-                //userService = new UserService(context);
-                //logit("Instantiating Notification Service");
-                //notificationService = new NotificationService(context);                
-                //logit("Loading Active Users");
-                //Users = userService.RetrieveActiveUsers();
-
-                //logit("Should Event Based Emails be sent: " + shouldSendEventBasedEmails.ToString());
-                //if(shouldSendEventBasedEmails)
-                //{
-                //    logit("executeEventBasedEmails");
-                //    executeEventBasedEmails();
-                //}
-                //logit("Check to see if time based emails have been sent for today");
-                //EmailLog log = referenceService.RetrieveEmailLogByDate(logDate);
-                //if(log.EmailLogId == 0) //emails haven't been sent yet today
-                //{
-                //    logit("Time based emails have not been sent for today");
-                //    sendReviewerNotifications();
-                //    sendSpecialistNotifications();
-                //    logit("saveNotifications");
-                //    saveNotifications();
-                //    log.SentDate = logDate;
-                //    log.SentAmount = emailsSent;
-                //    referenceService.SaveEmailLog(log);
-                //}
-                //else
-                //{
-                //    logit("Time based emails have sent for today.");
-                //}
-                //logit("Write Log");
-                //System.IO.File.WriteAllText(Config.Settings.LogDirectory + "EmailLog-" + env + ".txt",stringBuilder.ToString());
-
-               
             }
             catch (System.Exception x)
             {
@@ -641,7 +632,8 @@ namespace QMS_NotificationSender
         {
             int statusId = retrieveStatusId(StatusType.ASSIGNED);
             int daysOld = int.Parse(SettingType.CA_ASSIGNED_BRC_SPECIALIST);
-            var correctiveActions = retrieveCorrectiveActionByStatusAndAge(statusId,daysOld);
+            int orgId = referenceService.RetrieveOrgByOrgCode("BRC").OrgId;
+            var correctiveActions = retrieveCorrectiveActionByStatusAndAge(statusId,daysOld,orgId);
             logit("Corrective Actions Found Assigned (BRC Specialist): " + correctiveActions.Count);
 
             foreach(var correctiveAction in correctiveActions)
@@ -692,7 +684,8 @@ namespace QMS_NotificationSender
         {
             int statusId = retrieveStatusId(StatusType.ASSIGNED);
             int daysOld = int.Parse(SettingType.CA_ASSIGNED_PPRM_SPECIALIST);
-            var correctiveActions = retrieveCorrectiveActionByStatusAndAge(statusId,daysOld);
+            int orgId = referenceService.RetrieveOrgByOrgCode("PPRM").OrgId;
+            var correctiveActions = retrieveCorrectiveActionByStatusAndAge(statusId,daysOld,orgId);
             logit("Corrective Actions Found Assigned (PPRM Specialist): " + correctiveActions.Count);
 
             foreach(var correctiveAction in correctiveActions)
@@ -763,7 +756,7 @@ namespace QMS_NotificationSender
             stringBuilder.AppendLine(recipient);
             stringBuilder.AppendLine(string.Format("Body:{0}<br/>",message.Body));
             stringBuilder.AppendLine("<br/>");
-//            notificationService.SendEmail(message);
+            notificationService.SendEmail(message);
         }        
 
         static void saveNotifications()

@@ -71,11 +71,12 @@ namespace QmsCore.Engine
             return message;
         }
 
-//        internal void sendIndividualMessage(CorrectiveAction ca, NtfNotificationevent ne, User submitter, QmsWorkitemcomment comment)
+
 
         internal void sendIndividualMessage(CorrectiveAction ca, NtfNotificationevent ne, User submitter, QmsWorkitemcomment comment)
         {
-            if(submitter.UserId != ca.CreatedByUserId.Value) // if the person doing the action is the originator they don't get a message since they did the action
+
+            if (submitter.UserId != ca.CreatedByUserId.Value) // if the person doing the action is the originator they don't get a message since they did the action
             {
                 SecUser user;                
                 NtfNotification notification = new NtfNotification();

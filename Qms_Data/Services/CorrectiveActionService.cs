@@ -1137,7 +1137,7 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
             int negDay = daysold - (daysold * 2);
             DateTime dateToUse = DateTime.Now.AddDays(negDay);
             var retval = from recs in correctiveActionRepository.RetrieveAll()
-                         where recs.StatusId == statusId && recs.DeletedAt == null && recs.ResolvedAt == null && recs.UpdatedAt.Value < dateToUse
+                         where recs.StatusId == statusId && recs.DeletedAt == null && recs.ResolvedAt == null && recs.UpdatedAt.Value < dateToUse && recs.AssignedToOrg.OrgtypeId == 10
                          orderby recs.AssignedToOrgId
                          select new CorrectiveAction{
                              Id = recs.Id,
