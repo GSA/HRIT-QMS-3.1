@@ -116,9 +116,8 @@ namespace QmsCore.Engine
                 }
                 user = userRepository.RetrieveByUserId(notification.UserId);
                 send(user.EmailAddress,notification.Title,notification.Message);
-
-                context.Add(notification);
-                context.SaveChanges();
+                notificationRepository.CloseUnsentActions(notification.WorkitemId, notification.WorkItemTypeCode);
+                notificationRepository.Insert(notification);
             }
         }
 
@@ -141,6 +140,8 @@ namespace QmsCore.Engine
             notification.WorkItemTypeCode = WorkItemTypeEnum.CorrectiveActionRequest;
 
             notification.NotificationEventId = ne.NotificationEventId;
+
+            notificationRepository.CloseUnsentActions(notification.WorkitemId, notification.WorkItemTypeCode);
 
             int i = 0;
             foreach(var user in users)

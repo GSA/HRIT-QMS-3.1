@@ -1,3 +1,4 @@
+use aca;
 -- PPRM
 INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_id, created_at, workitemtype_code) VALUES ('41', '4', '8', now(),'EHRI');-- UNASSIGNED_TO_ASSIGNED
 INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_id, created_at, workitemtype_code) VALUES ('52', '4', '8', now(),'EHRI');-- UNASSIGNED_TO_CLOSED 

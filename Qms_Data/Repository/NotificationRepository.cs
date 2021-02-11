@@ -51,8 +51,17 @@ namespace QmsCore.Repository
             return context.SaveChanges();
         }
 
+        internal void CloseUnsentActions(int correctiveActionId, string workItemType)
+        {
+            var openNotifications = RetrieveOpenUnsentNotificationsByWorkItemId(correctiveActionId, workItemType);
+            foreach (var openNotification in openNotifications)
+            {
+                Delete(openNotification);
+            }
+        }
 
-#region "Retrievals"
+
+        #region "Retrievals"
 
         public NtfNotification RetrieveNotificationById(int id)
         {
