@@ -74,73 +74,90 @@ namespace QmsCore.Engine
 
         internal void sendIndividualMessage(DataError ehriError, NtfNotificationevent ne, User submitter, QmsWorkitemcomment comment)
         {
-            if(submitter.UserId != ehriError.CreatedByUserId.Value) // if the person doing the action is the originator they don't get a message since they did the action
+            try
             {
-
-                SecUser user;
-                NtfNotification notification = new NtfNotification();
-                notification.CreatedAt = DateTime.Now;
-                notification.HasBeenRead = 0;
-                notification.Title = string.Format(ne.TitleTemplate,ehriError.Id); //HRQMS - EHRI Error Closed ({0})
-                notification.WorkitemId = ehriError.Id;
-                notification.WorkItemTypeCode = WorkItemTypeEnum.CorrectiveActionRequest;
-                notification.SendAsEmail = 0; //Changed from 1 so it doesn't send
-                notification.NotificationEventId = ne.NotificationEventId;
-                notification.Message = formatMessage(ehriError,comment);
-                switch(ne.NotificationEventCode)
+                if (submitter.UserId != ehriError.CreatedByUserId.Value) // if the person doing the action is the originator they don't get a message since they did the action
                 {
-                  
-                    case EhriErrorNotificationType.EHRI_Assigned:
-                        notification.UserId = ehriError.AssignedToUserId.Value;
-                        break;
-                    case EhriErrorNotificationType.EHRI_Returned:
-                        notification.UserId = ehriError.CreatedByUserId.Value;
-                        break;
-                    case EhriErrorNotificationType.EHRI_Closed:
-                        notification.UserId = ehriError.CreatedByUserId.Value;
-                        break;                    
-                    default:
-                        //not a indivual message type
-                        break;
+
+                    SecUser user;
+                    NtfNotification notification = new NtfNotification();
+                    notification.CreatedAt = DateTime.Now;
+                    notification.HasBeenRead = 0;
+                    notification.Title = string.Format(ne.TitleTemplate, ehriError.Id); //HRQMS - EHRI Error Closed ({0})
+                    notification.WorkitemId = ehriError.Id;
+                    notification.WorkItemTypeCode = WorkItemTypeEnum.CorrectiveActionRequest;
+                    notification.SendAsEmail = 0; //Changed from 1 so it doesn't send
+                    notification.NotificationEventId = ne.NotificationEventId;
+                    notification.Message = formatMessage(ehriError, comment);
+                    switch (ne.NotificationEventCode)
+                    {
+
+                        case EhriErrorNotificationType.EHRI_Assigned:
+                            notification.UserId = ehriError.AssignedToUserId.Value;
+                            break;
+                        case EhriErrorNotificationType.EHRI_Returned:
+                            notification.UserId = ehriError.CreatedByUserId.Value;
+                            break;
+                        case EhriErrorNotificationType.EHRI_Closed:
+                            notification.UserId = ehriError.CreatedByUserId.Value;
+                            break;
+                        default:
+                            //not a indivual message type
+                            break;
+                    }
+
+                    if (notification.UserId > 0) //0 = System user - no need to notify.
+                    {
+                        context.Add(notification);
+                        context.SaveChanges();
+                        user = userRepository.RetrieveByUserId(notification.UserId);
+                        send(user.EmailAddress, notification.Title, notification.Message);
+                    }
+
                 }
 
-                if(notification.UserId > 0) //0 = System user - no need to notify.
-                {
-                    context.Add(notification);
-                    context.SaveChanges();
-                    user = userRepository.RetrieveByUserId(notification.UserId);
-                    send(user.EmailAddress,notification.Title,notification.Message);
-                }
 
             }
+            catch (Exception x)
+            {
+
+            }
+
         }
 
         internal void sendOrganizationalMessage(DataError ehriError, NtfNotificationevent ne, QmsWorkitemcomment comment)
         {
-            List<SecUser> users = getReviewersInOrg(ehriError.AssignedToOrgId.Value);
-            string[] emails = new string[users.Count];
-            NtfNotification notification = new NtfNotification();
-            notification.CreatedAt = DateTime.Now;
-            notification.Title = string.Format(ne.TitleTemplate,ehriError.Id);
-            notification.Message = formatMessage(ehriError,comment);
-            notification.HasBeenRead = 0;
-            notification.WorkitemId = ehriError.Id;
-            notification.WorkItemTypeCode = WorkItemTypeEnum.CorrectiveActionRequest;
-            notification.SendAsEmail = 0; //Changed from 1 so it doesn't send
-            notification.NotificationEventId = ne.NotificationEventId;
-
-            int i = 0;
-            foreach(var user in users)
+            try
             {
-                NtfNotification newNotification = notification.Clone();
-                newNotification.UserId = user.UserId;
-                context.Add(newNotification);
-                emails[i] = user.EmailAddress;
-                i++;
+                List<SecUser> users = getReviewersInOrg(ehriError.AssignedToOrgId.Value);
+                string[] emails = new string[users.Count];
+                NtfNotification notification = new NtfNotification();
+                notification.CreatedAt = DateTime.Now;
+                notification.Title = string.Format(ne.TitleTemplate, ehriError.Id);
+                notification.Message = formatMessage(ehriError, comment);
+                notification.HasBeenRead = 0;
+                notification.WorkitemId = ehriError.Id;
+                notification.WorkItemTypeCode = WorkItemTypeEnum.CorrectiveActionRequest;
+                notification.SendAsEmail = 0; //Changed from 1 so it doesn't send
+                notification.NotificationEventId = ne.NotificationEventId;
 
+                int i = 0;
+                foreach (var user in users)
+                {
+                    NtfNotification newNotification = notification.Clone();
+                    newNotification.UserId = user.UserId;
+                    context.Add(newNotification);
+                    emails[i] = user.EmailAddress;
+                    i++;
+
+                }
+                context.SaveChanges();
+                send(emails, notification.Title, notification.Message);
             }
-            context.SaveChanges();            
-            send(emails,notification.Title,notification.Message);
+            catch (Exception x)
+            { 
+            }
+
         }
 
 

@@ -1,8 +1,8 @@
-1. From the command line (Windows/Mac/Linux):
+1. From the command line (Windows/Mac/Linux): (E:\Developers\AlO\source\repos\HRIT-QMS\HRQMS3.1\HRIT-QMS-3.1\QMS\)
     dotnet publish -c Release -r rhel-x64 -f netcoreapp3.1 --self-contained true
 
 2. From File Explorer (Windows):
-    cd qms-web\QMS\QMS\bin\Release\netcoreapp3.1\rhel-x64
+    E:\Developers\AlO\source\repos\HRIT-QMS\HRQMS3.1\HRIT-QMS-3.1\Qms_Web\QMS\bin\Release\netcoreapp3.1\rhel-x64
     Compress (zip) the "publish" folder
     Rename publish.zip to QMS.zip
     
