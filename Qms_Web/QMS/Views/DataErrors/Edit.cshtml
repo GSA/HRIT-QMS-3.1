@@ -64,10 +64,12 @@
         <div class="form-row">
             <div class="form-group col-md-12 mb-0">
                 <label class="font-weight-bold mb-0 mr-3">Error Details:</label>
-                @Html.DisplayFor(model => model.QmsErrorCode)&nbsp;@Html.DisplayFor(model => model.DataElement)
+                @Html.DisplayFor(model => model.QmsErrorCode)&nbsp;@Html.DisplayFor(model => model.DataElement)&nbsp;&nbsp;&nbsp;(<a href="https://docs.google.com/spreadsheets/d/1kpENIvizFy2nbnPKoxFECTzNUWU7thZk9klAFY1kLmE/" target="_blank" title="QMS - Guidance for EHRI Errors">Go to QMS - Guidance for EHRI Errors</a>)
             </div>
             <div class="form-group col-md-12 mb-0">@Html.Raw(@Model.QmsErrorMessageText)</div>
         </div>
+
+
     </div>
 </div>
 

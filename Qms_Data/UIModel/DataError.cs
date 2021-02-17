@@ -340,9 +340,10 @@ namespace QmsCore.UIModel
                     int i = this.StatusId.Value;
                     int? orgId  = this.AssignedToOrgId;
                     int UNASSIGNED = 1;
-                    int PENDING_REVIEW = 3;                   
+                    int ASSIGNED = 2;
+                    int PENDING_REVIEW = 3;
 
-                    if((orgId == orgViewerIsFrom)  && (i==UNASSIGNED) || (i==PENDING_REVIEW))
+                    if((orgId == orgViewerIsFrom)  && (i==UNASSIGNED) || (i==PENDING_REVIEW) || (i == ASSIGNED))
                     {
                          retval = true;
                     }
