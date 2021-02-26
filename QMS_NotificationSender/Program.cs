@@ -794,7 +794,55 @@ namespace QMS_NotificationSender
         {
             if(!System.IO.Directory.Exists(fileDirectory))
                 System.IO.Directory.CreateDirectory(fileDirectory);
-    
+
+            List<string> viewNames = new List<string>();
+            List<string> fileNames = new List<string>();
+
+            using (MySqlConnection connection = new MySqlConnection(Config.Settings.ReconDB))
+            {
+                string sql = "select view_name from aca.sys_report where isActive = 'Y'";
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    MySqlDataReader dataReader = command.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        viewNames.Add(dataReader.GetString(0));
+                    }//end while
+                }//end using command
+                connection.Close();
+            }//end using connection
+
+            if (viewNames.Count > 0)
+            {
+                foreach (string viewName in viewNames)
+                {
+                    string fileName = fileDirectory + viewName + ".csv";
+                    fileNames.Add(fileName);
+                    createDataFiles(fileName, viewName);
+                }
+
+                MailMessage mailMessage = new MailMessage();
+                foreach (string fileName in fileNames)
+                {
+                    mailMessage.Attachments.Add(new Attachment(fileName));
+                }
+                mailMessage.To.Add("alfred.ortega@gsa.gov");
+                mailMessage.To.Add("james.mcconville@gsa.gov");
+                mailMessage.To.Add("kyle.thompson@gsa.gov");
+
+                mailMessage.Subject = "Daily QMS Metrics " + logDate;
+                mailMessage.From = new MailAddress(SettingType.FromEmail);
+
+                SmtpClient client = new SmtpClient(SettingType.EmailServer);
+                client.Send(mailMessage);
+
+            }
+
+
+
+
+/*
             string dataErrorFile = fileDirectory + "dataErrors.csv";
             string dataErrorView = "qms_DataMetricsForErrorType";
             string dataErrorHeader = "ErrorType, Count, Org";
@@ -816,8 +864,45 @@ namespace QMS_NotificationSender
 
             SmtpClient client = new SmtpClient(SettingType.EmailServer);
             client.Send(mailMessage);
-
+*/
         }
+
+        static void createDataFiles(string fileName, string viewName)
+        {
+            StringBuilder records = new StringBuilder();
+            string header = string.Empty;
+            using (MySqlConnection connection = new MySqlConnection(Config.Settings.ReconDB))
+            {
+                string sql = "select * from " + viewName;
+                connection.Open();
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
+                {
+                    MySqlDataReader dataReader = command.ExecuteReader();
+                    int fieldCount = dataReader.FieldCount;
+
+                    for (int i = 0; i < fieldCount; i++)
+                    {
+                        header += dataReader.GetName(i) + ",";
+                    }
+                    header = header.Substring(0, header.Length - 1); // remove trailing comma
+                    records.AppendLine(header);
+
+                    while (dataReader.Read())
+                    {
+                        string record = string.Empty;
+                        for (int i = 0; i < fieldCount; i++)
+                        {
+                            record += dataReader[i].ToString() + ",";
+                        }
+                        record = record.Substring(0, record.Length - 1); // remove trailing comma
+                        records.AppendLine(record);
+                    }
+                }//end command
+                connection.Close();
+            }//end connection
+            writeCSVFile(fileName, records.ToString());
+        }
+
 
         static void createDataFiles(string fileName, string viewName, string header)
         {
@@ -825,7 +910,7 @@ namespace QMS_NotificationSender
             records.AppendLine(header);
             using(MySqlConnection connection = new MySqlConnection(Config.Settings.ReconDB))
             {
-                string sql = "select * from aca." + viewName;
+                string sql = "select * from " + viewName;
                 connection.Open();
                 using(MySqlCommand command = new MySqlCommand(sql,connection))
                 {
@@ -845,7 +930,6 @@ namespace QMS_NotificationSender
                 connection.Close();
             }//end connection
             writeCSVFile(fileName,records.ToString());
-            
         }
 
         static void writeCSVFile(string fileName, string body)
