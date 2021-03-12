@@ -77,3 +77,19 @@ INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_i
 INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_id, created_at, workitemtype_code) VALUES ('29', '10', '10', now(),'EHRI');-- PENDING_REVIEW_TO_CLOSED
 INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_id, created_at, workitemtype_code) VALUES ('62', '10', '10', now(),'EHRI');-- PENDING_REVIEW_TO_CLOSED_ACTION_COMPLETED
 INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_id, created_at, workitemtype_code) VALUES ('67', '10', '8', now(),'EHRI');-- PENDING_REVIEW_TO_CLOSED_CONVERTED_TO_CA
+
+
+
+
+-- CABS SC
+INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_id, created_at, workitemtype_code) VALUES ('41', '11', '10', now(),'EHRI');-- UNASSIGNED_TO_ASSIGNED
+INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_id, created_at, workitemtype_code) VALUES ('52', '11', '10', now(),'EHRI');-- UNASSIGNED_TO_CLOSED 
+INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_id, created_at, workitemtype_code) VALUES ('58', '11', '10', now(),'EHRI');-- UNASSIGNED_TO_CLOSED_ACTION_COMPLETED
+INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_id, created_at, workitemtype_code) VALUES ('65', '11', '8', now(),'EHRI');-- UNASSIGNED_TO_CLOSED_CONVERTED_TO_CA
+INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_id, created_at, workitemtype_code) VALUES ('48', '11', '10', now(),'EHRI');-- ASSIGNED_TO_PENDING_REVIEW
+INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_id, created_at, workitemtype_code) VALUES ('25', '11', '10', now(),'EHRI');-- ASSIGNED_TO_CLOSED_NO_ACTION_REQUIRED
+INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_id, created_at, workitemtype_code) VALUES ('66', '11', '8', now(),'EHRI');-- ASSIGNED_TO_CLOSED_CONVERTED_TO_CA
+INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_id, created_at, workitemtype_code) VALUES ('27', '11', '10', now(),'EHRI');-- PENDING_REVIEW_TO_ASSIGNED 
+INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_id, created_at, workitemtype_code) VALUES ('29', '11', '10', now(),'EHRI');-- PENDING_REVIEW_TO_CLOSED
+INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_id, created_at, workitemtype_code) VALUES ('62', '11', '10', now(),'EHRI');-- PENDING_REVIEW_TO_CLOSED_ACTION_COMPLETED
+INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_id, created_at, workitemtype_code) VALUES ('67', '11', '8', now(),'EHRI');-- PENDING_REVIEW_TO_CLOSED_CONVERTED_TO_CA

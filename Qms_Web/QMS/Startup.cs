@@ -195,6 +195,7 @@ namespace QMS
             {
                 options.Cookie.HttpOnly = true;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                options.Cookie.SameSite = SameSiteMode.Strict;
                 options.Cookie.Name = Configuration["SharedCookieName"];
                 options.LoginPath = "/Home/Index";
             });
@@ -207,6 +208,8 @@ namespace QMS
             {
                 options.Cookie.Expiration = TimeSpan.FromSeconds(sessionTimeoutSeconds);
                 options.ExpireTimeSpan = TimeSpan.FromSeconds(sessionTimeoutSeconds);
+                options.Cookie.SameSite = SameSiteMode.Strict;
+                options.Cookie.HttpOnly = true;
                 options.SlidingExpiration = false;
             });
 
@@ -217,6 +220,8 @@ namespace QMS
             {
                 options.Cookie.Name = Configuration["SessionCookieName"];
                 options.IdleTimeout = TimeSpan.FromSeconds(sessionTimeoutSeconds);
+                options.Cookie.SameSite = SameSiteMode.Strict;
+                options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
 
