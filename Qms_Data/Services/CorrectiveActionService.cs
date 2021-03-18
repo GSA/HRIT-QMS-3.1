@@ -381,7 +381,7 @@ public class CorrectiveActionService : BaseService<QmsCorrectiveactionrequest>, 
             }
             else if(userIsPPRBReviewer)
             {
-                return convertCorrectiveActionListItems(RetrieveAllByAssignedToOrg(user.OrgId.Value));
+                return convertCorrectiveActionListItems(RetrieveAllByAssignedToOrCreatedByOrg(user.OrgId.Value));
             }
             else if(userIsAnSCReviewer)
             {

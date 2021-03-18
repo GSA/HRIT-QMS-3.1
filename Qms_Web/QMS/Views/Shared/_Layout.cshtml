@@ -55,24 +55,29 @@
                 </li>
                 <li class="nav-item"><a href="#" class="nav-link px-1 d-none d-md-block my-0 py-0">|</a></li>
                 <li class="nav-item">
+                    <a class="nav-link my-0 py-0" href="https://docs.google.com/spreadsheets/d/1KK3mAnFmonNSH6cMwla_JhpK7HiOuRromO56MXMTcBk/"
+                       target="_blank">Dashboard</a>
+                </li>
+                <li class="nav-item"><a href="#" class="nav-link px-1 d-none d-md-block my-0 py-0">|</a></li>
+                <li class="nav-item">
                     <a class="nav-link my-0 py-0" asp-area="" asp-controller="Home" asp-action="Help">Help</a>
                 </li>
                 @if (Context.User.Identity.IsAuthenticated)
                 {
-                <li class="nav-item"><a href="#" class="nav-link px-1 d-none d-md-block my-0 py-0">|</a></li>
-                <li class="nav-item"><a class="nav-link my-0 py-0" style="color:#0CB0DF;">@Context.User.Identity.Name</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-1 d-none d-md-block my-0 py-0">|</a></li>
+                    <li class="nav-item"><a class="nav-link my-0 py-0" style="color:#0CB0DF;">@Context.User.Identity.Name</a></li>
                 }
                 @if (Context.User.Identity.IsAuthenticated)
                 {
-                <li class="nav-item"><a href="#" class="nav-link px-1 d-none d-md-block mr-2 my-0 py-0">|</a></li>
-                <a class="btn btn-sm btn-primary my-2 my-sm-1 my-0 py-0" asp-controller="Login" asp-action="LogoutAsync">
-                    <span>@Localizer["Log Out"]</span>
-                </a>
+                    <li class="nav-item"><a href="#" class="nav-link px-1 d-none d-md-block mr-2 my-0 py-0">|</a></li>
+                    <a class="btn btn-sm btn-primary my-2 my-sm-1 my-0 py-0" asp-controller="Login" asp-action="LogoutAsync">
+                        <span>@Localizer["Log Out"]</span>
+                    </a>
                 }
             </ul>
             <ul class="navbar-nav flex-row ml-auto my-0 py-0">
                 <li class="nav-item my-0 py-0">
-                    <a class="nav-link my-0 py-0 font-italic" style="color:#0CB0DF;"href="#">2021.02.12</a>
+                    <a class="nav-link my-0 py-0 font-italic" style="color:#0CB0DF;"href="#">2021.03.26</a>
                 </li>
             </ul>
         </div>
@@ -94,7 +99,7 @@
         </div>
     </footer> -->
     <!--[Branch: master][SDK 3.1][Tuesday, January 19, 2021][10:00 AM CT] -->
-    <script src="~/lib/jquery/dist/jquery-3.5.1.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery-3.6.0.min.js"></script>
     <script src="~/lib/popper/dist/popper.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <style>
