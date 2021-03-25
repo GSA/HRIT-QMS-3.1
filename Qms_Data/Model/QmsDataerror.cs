@@ -36,5 +36,8 @@ namespace QmsCore.Model
         public QmsEmployee Empl { get; set; }
         public QmsMasterErrorList ErrorList { get; set; }
         public QmsStatus Status { get; set; }
+
+
+
     }
 }
