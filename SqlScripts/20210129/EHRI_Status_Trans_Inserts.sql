@@ -80,7 +80,8 @@ INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_i
 
 
 
-
+select *
+from aca.sec_org;
 -- CABS SC
 INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_id, created_at, workitemtype_code) VALUES ('41', '11', '10', now(),'EHRI');-- UNASSIGNED_TO_ASSIGNED
 INSERT INTO aca.qms_org_status_trans (status_trans_id, from_org_id, to_orgtype_id, created_at, workitemtype_code) VALUES ('52', '11', '10', now(),'EHRI');-- UNASSIGNED_TO_CLOSED 
